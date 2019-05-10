@@ -1,0 +1,107 @@
+<div class="grid-wrapper" [(style.width.px)]="data.width" [(style.height.px)]="data.height" *ngIf="data && data.data && data.data.length">
+	<div class="grid-header flex-div grid-filter" *ngIf="data.showFilter">
+		<mat-form-field>
+			<input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+		</mat-form-field>
+		<span class="flex-one"></span>
+	</div>
+	<div class="grid-body">
+		<mat-table [dataSource]="dataSource" matSort [style.max-height.px]="data.maxHeight">
+			<ng-container matColumnDef="{{item.field}}" *ngFor="let item of fields">
+				<mat-header-cell *matHeaderCellDef mat-sort-header class='ellipsis' title="{{item.label}}">
+					<span class='ellipsis'>
+						<span *ngIf="item.field!== 'actions' && item.field!='userName'" class='ellipsis'>
+							<b>{{item.label | uppercase}}</b>
+						</span>
+						<span *ngIf="item.field=== 'actions' && item.field!='userName'" class='ellipsis'>
+							<b class='ellipsis'>ACTIONS</b>
+						</span>
+					</span>
+				</mat-header-cell>
+				<mat-cell title="{{user[item.field]}}" *matCellDef="let user">
+					<span *ngIf="item.element!=='image' && item.field!== 'actions'&& item.element!== 'date' && item.element!== 'dropdown' && item.field!='userName' && item.element !=='fileUpload'">
+						<span *ngIf="user[item.field] === 'null' || (!user[item.field] && !item.boolean)">null</span>
+						<span *ngIf="user[item.field] !== 'null' && user[item.field] && item.date && !item.boolean">{{convertDate(user[item.field])}}</span>
+						<span *ngIf="user[item.field] !== 'null' && user[item.field] && !item.type&& !item.date && !item.boolean">{{user[item.field] || 'null'}}</span>
+						<span *ngIf="user[item.field] !== 'null' && user[item.field] && item.type ==='array'&&!item.date && !item.boolean">{{convertArray(user[item.field])}}</span>
+					</span>
+					<span *ngIf="item.element!=='image' && item.field!== 'actions' && item.element=== 'date' && item.field!='userName' && item.element !=='fileUpload'">
+						<span *ngIf="user[item.field] === 'null' || !user[item.field]">null</span>
+						<span *ngIf="user[item.field] !== 'null' && user[item.field]">{{convertDate(user[item.field])}}</span>
+					</span>
+					<span *ngIf="item.element!=='image' && item.field!== 'actions' && item.element=== 'dropdown' && item.field!='userName' && item.element !=='fileUpload'">
+						<span *ngIf="user[item.field] === 'null' || (!user[item.field]  && !item.boolean)">null</span>
+						<span *ngIf="item.boolean">{{user[item.field]===1 ?'Completed' : 'Not Completed'}}</span>
+						<span *ngIf="user[item.field] !== 'null' && user[item.field] && !item.boolean">{{getDropdownValues(user[item.field],item)}}</span>
+					</span>
+					<span *ngIf="item.field==='actions' && data.details!==true && !data.detailsPopUp && !data.attendanceDetails && !data.menuDetails">
+						<mat-icon *ngIf="data.idCard" class="cursor-pointer" title="Print Id Card" (click)="printIdCard(user)" color="success">assignment_ind</mat-icon>
+						<mat-icon class="cursor-pointer" title="Edit" (click)="editItem(user)" color="primary">edit</mat-icon>
+						<mat-icon *ngIf="data.deletable" class="cursor-pointer" title="delete" (click)="deleteItem(user)" color="warn">delete</mat-icon>
+					</span>
+					<span *ngIf="item.field==='actions' && data.details===true && item.element!=='print' && !data.fullDetails&& !data.attendanceDetails">
+						<!-- <mat-icon class="cursor-pointer" title="Details" (click)="editItem(user,true)" color="primary">dehaze</mat-icon> -->
+						<span class="cursor-pointer" title="Details" (click)="editItem(user,true)" style="color:blue">Details</span>
+					</span>
+					<span *ngIf="item.field==='actions' && data.detailsPopUp">
+						<!-- <mat-icon class="cursor-pointer" title="Details" (click)="editItem(user,true)" color="primary">dehaze</mat-icon> -->
+						<span class="cursor-pointer" title="Details" (click)="getResults(user,true)" style="color:blue">Details</span>
+					</span>
+					<span *ngIf="item.field==='actions' && data.attendanceDetails">
+						<!-- <mat-icon class="cursor-pointer" title="Details" (click)="editItem(user,true)" color="primary">dehaze</mat-icon> -->
+						<span class="cursor-pointer" title="Details" (click)="attendanceDetails(user,true)" style="color:blue">Details</span>
+					</span>
+					<span *ngIf="item.field==='actions' && item.element==='print'">
+						<!-- <mat-icon class="cursor-pointer" title="Details" (click)="editItem(user,true)" color="primary">dehaze</mat-icon> -->
+						<span class="cursor-pointer" title="Print" (click)="PrintUser(user)" style="color:blue">Print</span>
+					</span>
+					<span *ngIf="item.element ==='image' && user[item.field]">
+						<img src="{{user[item.field]}}" width='50px' height="50px" />
+					</span>
+					<span *ngIf="item.element ==='fileUpload'">
+						<a target="_blank" href="{{user[item.field]}}" class="cursor-pointer" *ngIf="user[item.field]!== null">Download File</a>
+						<a *ngIf="user[item.field]=== null">No Files Uploaded</a>
+					</span>
+					<span *ngIf="item.element ==='image' && !user[item.field]">
+						<img src="assets/images/1.png" width='50px' height="50px" />
+					</span>
+					<span *ngIf="item.field==='actions' && data.fullDetails">
+						<span class="cursor-pointer" title="Details" (click)="editItem(user,true,true)" style="color:blue">Details</span>
+					</span>
+				</mat-cell>
+			</ng-container>
+			<mat-header-row *matHeaderRowDef="displayedColumns" color="primary"></mat-header-row>
+			<mat-row *matRowDef="let row; columns:displayedColumns"></mat-row>
+		</mat-table>
+	</div>
+	<div class="grid-footer" *ngIf="data.showFooter">
+		<mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true">
+		</mat-paginator>
+	</div>
+</div>
+<div *ngIf="data && data.data && !data.data.length">
+	<h1 style="text-align:center;margin-top:20px">No Data to display</h1>
+</div>
+
+<!-- <div class="grid-wrapper" [(style.width.px)]="data.width" [(style.height.px)]="data.height">
+	<table >
+		<thead>
+			<tr>
+				<th *ngFor="let item of displayedColumns">
+						<span 
+						class = "ui-column-resizer"
+						(mousedown) = "onMouseDown($event)">
+					 </span>
+					<span>{{item}}</span>
+				</th>
+
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let data of data.data">
+				<td *ngFor="let item of displayedColumns">{{data[item]}}</td>
+			</tr>
+		</tbody>
+	</table>
+
+</div> -->

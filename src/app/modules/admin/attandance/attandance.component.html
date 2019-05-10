@@ -1,0 +1,43 @@
+<div class="container students-view">
+  <span class="selected-app-name">{{user.selectedApp.name}}</span>
+  <span class="row" style="position: absolute;left: 200px;top: 10px;" *ngIf="frontVisible && callGrid">
+    <h4>
+      <b>Total Absent Percentage : </b>{{data.totalAbsentPercentage}} %
+      <b>Total Present Percentage: </b>{{data.totalPresentPercentage}} %</h4>
+  </span>
+  <span class="row go-icon" *ngIf="frontVisible">
+    <span (click)="flip();manual=true">
+      <button mat-button color="primary">
+        <mat-icon>add</mat-icon>Manual Attendance</button>
+    </span>
+    <button mat-button color="warn" (click)="reset();">
+      Reset Attendance</button>
+    <button mat-button color="primary" (click)="notify();">
+      <mat-icon>notifications</mat-icon> Absent</button>
+  </span>
+
+  <span class="row go-icon" *ngIf="!frontVisible">
+    <span (click)="flip();manual=false">
+      <button mat-button color="primary">Back</button>
+    </span>
+  </span>
+  <div class="card results" [style.width.px]="data.width" [style.height.px]="data.height">
+    <div class="front" *ngIf="frontVisible">
+      <add-form [fields]='searchFields' [(newRecord)]='newRecord' [button]="'Get Attendance'" (onAdd)="onSearch($event)"></add-form>
+      <data-grid [(data)]="data" [fields]='fields' [selectedApp]='dataService.selectedApp.name' (ondelete)="onDelete($event)" (attendance)="attendanceDetails($event)"
+        *ngIf='callGrid'></data-grid>
+
+      <!-- <br/>
+      <h1 *ngIf='callGrid' style="margin-left:15%">
+        <b>{{data.data.message}} </b>
+        <span> {{data.data.data}}%</span>
+      </h1>  -->
+    </div>
+    <div class="back" *ngIf="!frontVisible">
+      <div *ngIf="manual">
+        <add-form [fields]='manualFields' [(newRecord)]='newRecord1' [button]="'Add Attendance'" (onAdd)="addManual($event)"></add-form>
+      </div>
+      <admin-attendance1 *ngIf="!manual" fromAdmin="true" value="{{attendanceTemp.studentId}}"></admin-attendance1>
+    </div>
+  </div>
+</div>

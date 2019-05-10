@@ -1,0 +1,75 @@
+<div class="container students-view">
+  <span class="selected-app-name">{{user.selectedApp.name}}</span>
+  <button mat-flat-button (click)="pay()">PAY</button>
+  <button mat-flat-button (click)="record()">Record</button>
+
+  <div class="card" [style.width.px]="data.width" [style.height.px]="data.height">
+    <div class="grid-header flex-div grid-filter" *ngIf="data.showFilter">
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Enter student ID">
+      </mat-form-field>
+      <span class="flex-one"></span>
+    </div> 
+    <div class="grid-body">
+        <mat-table [dataSource]="dataSource" matSort [style.max-height.px]="data.maxHeight">
+          <ng-container matColumnDef="studentNo">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>S.NO</mat-header-cell>
+            <mat-cell *matCellDef="let user"></mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="studentId">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>S.ID</mat-header-cell>
+            <mat-cell *matCellDef="let user"></mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="studentName">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>S.Name</mat-header-cell>
+            <mat-cell *matCellDef="let user"></mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="year">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Year</mat-header-cell>
+            <mat-cell *matCellDef="let user"></mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="course">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Course</mat-header-cell>
+            <mat-cell *matCellDef="let user"></mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="department">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Department</mat-header-cell>
+            <mat-cell *matCellDef="let user"></mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="courseFee">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Course Fee</mat-header-cell>
+            <mat-cell *matCellDef="let user"></mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="hostel">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Hostel</mat-header-cell>
+            <mat-cell *matCellDef="let user"></mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="transport">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Transport</mat-header-cell>
+            <mat-cell *matCellDef="let user"></mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="paidFee">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Paid Fee</mat-header-cell>
+            <mat-cell *matCellDef="let user"></mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="due">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Due</mat-header-cell>
+            <mat-cell *matCellDef="let user"></mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="action">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Action</mat-header-cell>
+            <mat-cell *matCellDef="let user"></mat-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns:displayedColumns"></mat-row>
+        </mat-table>
+      <div class="grid-footer" *ngIf="data.showFooter">
+        <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true">
+        </mat-paginator>
+      </div>
+    </div>
+    <div *ngIf="data && data.data && !data.data.length">
+      <h1 style="text-align:center;margin-top:20px">No Data to display</h1>
+    </div>
+  </div>
+</div>

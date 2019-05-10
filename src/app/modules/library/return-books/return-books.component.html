@@ -1,0 +1,8 @@
+<div class="container students-view">
+  <span class="selected-app-name">Return Books</span> 
+  <div class="card" [style.width.px]="data.width" [style.height.px]="data.height">
+    <div class="front" *ngIf="frontVisible" [style.width.px]="data.width" [style.height.px]="data.height">
+      <add-form [fields]='fields' [(newRecord)]='newRecord' [button]="'Return Book'" (onAdd)="addNewStudent($event)"></add-form>
+    </div>
+  </div>
+</div>

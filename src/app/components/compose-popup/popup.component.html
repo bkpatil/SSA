@@ -1,0 +1,27 @@
+<form class="popup-form">
+  <div class="row popup-header">Profile</div>
+  <table style="width:100%">
+    <tr>
+      <td>Receiver:
+        <input type="text" class="form-control" [(ngModel)]="data.receiver" [ngModelOptions]="{standalone: true}" />
+      </td>
+    </tr>
+    <tr>
+      <td>Subject:
+        <input type="text" class="form-control" [(ngModel)]="data.subject" [ngModelOptions]="{standalone: true}" />
+      </td>
+    </tr>
+    <tr>
+      <td>Message:
+        <br/>
+        <textarea class="form-control" (change)="messageChange($event)"></textarea>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <br/>
+        <button mat-raised-button color="primary" (click)="sendMail()">Send</button>
+      </td>
+    </tr>
+  </table>
+</form>

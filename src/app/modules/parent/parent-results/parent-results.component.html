@@ -1,0 +1,34 @@
+<div class="container students-view">
+  <span class="selected-app-name">{{user.selectedApp.name}}</span>
+  <span class="row go-icon" *ngIf="!frontVisible">
+    <span (click)="flip()">
+      <button mat-button color="primary">View Results Type</button>
+    </span>
+  </span>
+  <div class="card results" [style.width.px]="data.width" [style.height.px]="data.height">
+    <div class="front" *ngIf="frontVisible" style="text-align: center;">
+      <h1 class="cursor-pointer" (click)="displayResults('internal')">
+        Internal Test Results
+      </h1>
+      <h1 class="cursor-pointer" (click)="displayResults('external')">
+        External Test Results
+      </h1>
+    </div>
+    <div class="back" *ngIf="!frontVisible">
+      <add-form [fields]='searchFields' [(newRecord)]='newRecord' [button]="button" (onAdd)="onSearch($event)"></add-form>
+      <!-- <data-grid [(data)]="data" (ondelete)="onDelete($event)" [fields]='fields' [selectedApp]='dataService.selectedApp.name' *ngIf='callGrid'></data-grid> -->
+      <div *ngIf='callGrid' style="border-top:1px dashed gray;margin-top:20px;    padding-top: 20px;">
+          <h2  style="margin-left:20%">Details Of Marks</h2>
+          <table *ngIf='callGrid' border='1' style="font-size: 22px;margin-left: 20%;width: 25%;">
+            <tr *ngFor="let key of keys">
+              <td style="padding-left:20px">
+                <b>{{key}}</b>
+              </td>
+              <td  style="padding-left:20px">{{data.data[key]}}</td>
+            </tr>
+          </table>
+      </div>
+      
+    </div>
+  </div>
+</div>

@@ -1,0 +1,257 @@
+<form class="popup-form">
+  <div class="row popup-header">Profile</div>
+  <table style="width:100%;    font-size: 13px;" *ngIf="user.selectedRole !== 'HOD'">
+      <tr>
+          <td>
+            <b>Profile Pic</b>
+          </td>
+          <td>
+              <span class="input-image">
+                  <button mat-raised-button (click)="fileInputs.click()">
+                    <img src='{{data.profilePic}}' style="width:100px;height:100px" *ngIf = 'showPic'/>
+                    <input #fileInputs type="file" (change)="onImageInput($event,field)" accept="image/*" [(ngModel)]='profile'
+                      style="display:none;">
+                  </button>
+                </span>
+          </td>
+        </tr>
+    <tr>
+      <td>
+        <b>First Name</b>
+      </td>
+      <td>
+        <mat-form-field>
+          <input matInput placeholder="" [(ngModel)]='data.firstName' [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <!-- <input type="text" [(ngModel)]="data.firstName" name="first"/> -->
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <b>Last Name</b>
+      </td>
+      <td>
+        <mat-form-field>
+          <input matInput placeholder="" [(ngModel)]='data.lastname' [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <!-- <input type="text" [(ngModel)]="data.lastname" [ngModelOptions]="{standalone: true}"/> -->
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <b>Email</b>
+      </td>
+      <td>
+        <mat-form-field>
+          <input matInput placeholder="" [(ngModel)]='data.email' [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <!-- <input type="email" [(ngModel)]="data.email" [ngModelOptions]="{standalone: true}"/> -->
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <b>Contact Number</b>
+      </td>
+      <td>
+        <mat-form-field>
+          <input matInput placeholder="" [(ngModel)]='data.contactNumber' [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <!-- <input type="text" [(ngModel)]="data.contactNumber" [ngModelOptions]="{standalone: true}"/> -->
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <b>Date Of Birth</b>
+      </td>
+      <td>
+        <mat-form-field>
+          <input matInput [matDatepicker]="picker" [(ngModel)]='data.dob' placeholder="Date Of Birth" [ngModelOptions]="{standalone: true}">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <!-- <input type="date" [(ngModel)]="data.dob" [ngModelOptions]="{standalone: true}"/> -->
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <b>Gender</b>
+      </td>
+      <td>
+        <mat-select [(ngModel)]='data.gender' [(value)]='data.gender' [ngModelOptions]="{standalone: true}" style="width: 200px;">
+          <mat-option value="male">Male</mat-option>
+          <mat-option value="female">Female</mat-option>
+        </mat-select>
+        <!-- <mat-form-field>
+          <input matInput placeholder="" [(ngModel)]='data.gender' [ngModelOptions]="{standalone: true}">
+        </mat-form-field> -->
+        <!-- <input type="text" [(ngModel)]="data.gender" [ngModelOptions]="{standalone: true}"/> -->
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <b>Address</b>
+      </td>
+      <td>
+        <mat-form-field>
+          <input matInput placeholder="" [(ngModel)]='data.address' [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <!-- <input type="text" [(ngModel)]="data.address" [ngModelOptions]="{standalone: true}"/> -->
+      </td>
+    </tr>
+    <!-- <tr>
+      <td>
+        <b>Designation</b>
+      </td>
+      <td>
+        <mat-form-field>
+          <input matInput placeholder="" [(ngModel)]='data.designation' [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+      </td>
+    </tr> -->
+    <tr *ngIf="user.selectedRole !== 'Student'">
+      <td>
+        <b>Year Joined</b>
+      </td>
+      <td>
+        <mat-form-field>
+          <input matInput placeholder="" [(ngModel)]='data.yearJoined' [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <!-- <input type="text" [(ngModel)]="data.yearJoined" [ngModelOptions]="{standalone: true}"/> -->
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" style="text-align:center">
+        <button color="primary" mat-raised-button (click)="saveProfile()">
+          Save Profile
+        </button>
+      </td>
+    </tr>
+  </table>
+  <table style="width:100%;    font-size: 13px;" *ngIf="user.selectedRole === 'HOD'">
+      <tr>
+          <td>
+            <b>Profile Pic</b>
+          </td>
+          <td>
+              <span class="input-image">
+                  <button mat-raised-button (click)="fileInputs.click()">
+                    <img src='{{data.profilePic}}' style="width:100px;height:100px" *ngIf = 'showPic'/>
+                    <input #fileInputs type="file" (change)="onImageInput($event,field)" accept="image/*" [(ngModel)]='profile'
+                      style="display:none;">
+                  </button>
+                </span>
+          </td>
+        </tr>
+    <tr>
+      <td>
+        <b>Name</b>
+      </td>
+      <td>
+        <mat-form-field>
+          <input matInput placeholder="" [(ngModel)]='data.name' [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <!-- <input type="text" [(ngModel)]="data.firstName" name="first"/> -->
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <b>Department</b>
+      </td>
+      <td>
+        <mat-form-field>
+          <input matInput placeholder="" [(ngModel)]='data.department' [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <!-- <input type="text" [(ngModel)]="data.firstName" name="first"/> -->
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <b>Email</b>
+      </td>
+      <td>
+        <mat-form-field>
+          <input matInput placeholder="" [(ngModel)]='data.email' [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <!-- <input type="text" [(ngModel)]="data.firstName" name="first"/> -->
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <b>Qualification</b>
+      </td>
+      <td>
+        <mat-form-field>
+          <input matInput placeholder="" [(ngModel)]='data.qualification' [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <!-- <input type="text" [(ngModel)]="data.firstName" name="first"/> -->
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <b>Contact Number</b>
+      </td>
+      <td>
+        <mat-form-field>
+          <input matInput placeholder="" [(ngModel)]='data.contactNumber' [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <!-- <input type="text" [(ngModel)]="data.contactNumber" [ngModelOptions]="{standalone: true}"/> -->
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <b>Date Of Birth</b>
+      </td>
+      <td>
+        <mat-form-field>
+          <input matInput [matDatepicker]="picker" [(ngModel)]='data.dob' placeholder="Date Of Birth" [ngModelOptions]="{standalone: true}">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <!-- <input type="date" [(ngModel)]="data.dob" [ngModelOptions]="{standalone: true}"/> -->
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <b>Gender</b>
+      </td>
+      <td>
+        <mat-select [(ngModel)]='data.gender' [(value)]='data.gender' [ngModelOptions]="{standalone: true}" style="width: 200px;">
+          <mat-option value="male">Male</mat-option>
+          <mat-option value="female">Female</mat-option>
+        </mat-select>
+        <!-- <mat-form-field>
+          <input matInput placeholder="" [(ngModel)]='data.gender' [ngModelOptions]="{standalone: true}">
+        </mat-form-field> -->
+        <!-- <input type="text" [(ngModel)]="data.gender" [ngModelOptions]="{standalone: true}"/> -->
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <b>Address</b>
+      </td>
+      <td>
+        <mat-form-field>
+          <input matInput placeholder="" [(ngModel)]='data.address' [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+        <!-- <input type="text" [(ngModel)]="data.address" [ngModelOptions]="{standalone: true}"/> -->
+      </td>
+    </tr>
+    <!-- <tr>
+      <td>
+        <b>Designation</b>
+      </td>
+      <td>
+        <mat-form-field>
+          <input matInput placeholder="" [(ngModel)]='data.designation' [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+      </td>
+    </tr> -->
+    <tr>
+      <td colspan="2" style="text-align:center">
+        <button color="primary" mat-raised-button (click)="saveProfile()">
+          Save Profile
+        </button>
+      </td>
+    </tr>
+  </table>
+</form>

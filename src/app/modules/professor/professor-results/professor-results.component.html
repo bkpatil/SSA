@@ -1,0 +1,150 @@
+<div class="container students-view">
+  <span class="selected-app-name">{{user.selectedApp.name}}</span>
+  <span class="row go-icon" *ngIf="!frontVisible">
+    <span (click)="flip()">
+      <button mat-button color="primary">View Results Type</button>
+    </span>
+  </span>
+  <div class="card results" [style.width.px]="data.width" [style.height.px]="data.height">
+    <div class="front" *ngIf="frontVisible" style="text-align: center;">
+      <h1 class="cursor-pointer" (click)="displayResults('internalP')">
+        Internal Test Results
+      </h1>
+      <h1 class="cursor-pointer" (click)="displayResults('externalP')">
+        External Test Results
+      </h1>
+
+      <h1 class="cursor-pointer" (click)="displayResults('internal')">
+        Report Internal Test Results
+      </h1>
+      <h1 class="cursor-pointer" (click)="displayResults('external')">
+        Report External Test Results
+      </h1>
+    </div>
+    <div class="back" *ngIf="!frontVisible">
+      <span *ngIf="!professor" style="max-height:470px;overflow-y:scroll">
+        <!-- <add-form [fields]='searchFields' [(newRecord)]='newRecord' [button]="button" url="url" (onAdd)="onSearch($event)"></add-form> -->
+        <span *ngFor="let field of searchFields">
+          <mat-form-field *ngIf="field.element==='dropdown' && !field.multiple && !field.hide">
+            <mat-select placeholder="{{field.label}}" (change)="valueChange()" [(ngModel)]='newRecord[field.field]' [(value)]='newRecord[field.field]'>
+              <mat-option *ngFor="let value of field.values" [value]="value.examName || value.subjectName || value[field.field] ||value.name || value.id|| value">
+                {{ value.examName || value.value || value.subjectName || value[field.field] || value.name || value.id || value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </span>
+        <mat-form-field *ngIf="showExams">
+          <mat-select placeholder="Exams" [(ngModel)]='newRecord.exams' [(value)]='newRecord.exams'>
+            <mat-option *ngFor="let value of exams" [value]="value">
+              {{value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button color="primary" *ngIf="showExams" mat-raised-button (click)="addClick()">
+          {{ button }}
+        </button>
+        <div *ngIf="showResults">
+          <h1>Report Results</h1>
+          <div style="max-height: 250px; overflow:auto">
+            <table border=1 style="width:96%;margin: 0 20px;
+            font-size: 20px;
+            text-align: center;">
+              <tr>
+                <td>
+                  <b>S.No</b>
+                </td>
+                <td>
+                  <b>Student Id</b>
+                </td>
+                <td>
+                  <b>Student Name</b>
+                </td>
+                <td>
+                  <b>Exam Name</b>
+                </td>
+                <td>
+                  <b>Subject</b>
+                </td>
+                <td>
+                  <b>Marks</b>
+                </td>
+              </tr>
+              <tbody style="max-height:300px;overflow-y:scroll">
+                <tr *ngFor="let student of students">
+                  <td>{{student.SNo}}</td>
+                  <td>{{student.studentId}}</td>
+                  <td>{{student.studentName}}</td>
+                  <td>{{student.exams}}</td>
+                  <td>{{student.subjectName}}</td>
+                  <td style="padding-left:14px;width:300px;font-size: 14px">
+                      <input type="text" [(ngModel)]='student.marks'>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <button style="margin-top:20px;margin-left:40%" mat-raised-button color='primary' (click)="submitResults()">Submit Results</button>
+        </div>
+        <!-- <div *ngIf="showResults">
+          <span *ngFor="let mark of marks">
+            <mat-form-field>
+              <mat-select placeholder="Student Id" [(ngModel)]='subjects[mark]' [(value)]='subjects[mark]'>
+                <mat-option *ngFor="let value of students" [value]="value.studentId">
+                  {{value.studentId}}
+                </mat-option>
+              </mat-select>
+
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="Marks" [(ngModel)]='markSheet[mark]'>
+            </mat-form-field>
+          </span>
+          <button mat-raised-button (click)="addRow()">
+            <mat-icon>add_circle</mat-icon>
+          </button>
+          <button color="primary" mat-raised-button (click)="submitResults()">
+            Submit Results
+          </button>
+        </div> -->
+        <!-- <data-grid [(data)]="data" (ondelete)="onDelete($event)" [fields]='fields' [selectedApp]='dataService.selectedApp.name' *ngIf='callGrid'></data-grid> -->
+        <h1 style="margin-left:40%">OR</h1>
+        <div style="width:90%;margin-left: 20px;padding: 20px;align-content: center; border: 1px solid black; border-radius: 3px">
+          <span>
+            <button mat-raised-button (click)="fileInput.click()">
+              <mat-icon>file_upload</mat-icon>
+              <span>{{ button }}</span>
+              <input #fileInput type="file" placeholder="Upload Results" (change)="onFileInput($event)" style="display:none;">
+            </button>
+          </span>
+          <div *ngIf="fileName">
+            <h2 style="color: green;padding: 25px;">{{fileName}} Uploaded successfully.</h2>
+          </div>
+        </div>
+      </span>
+      <span *ngIf="professor" class="internal-results">
+        <span *ngFor="let field of searchFields1">
+          <mat-form-field *ngIf="field.element==='dropdown' && !field.multiple && !field.hide">
+            <mat-select placeholder="{{field.label}}" (change)="valueChange()" [(ngModel)]='newRecord[field.field]' [(value)]='newRecord[field.field]'>
+              <mat-option *ngFor="let value of field.values" [value]="value.examName || value.subjectName || value[field.field] ||value.name || value.id|| value">
+                {{ value.examName || value.value || value.subjectName || value[field.field] || value.name || value.id || value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </span>
+        <mat-form-field *ngIf="showExams">
+          <mat-select placeholder="Exams" [(ngModel)]='newRecord.exams' [(value)]='newRecord.exams'>
+            <mat-option *ngFor="let value of exams" [value]="value">
+              {{value}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button *ngIf="showExams" color="primary" mat-raised-button (click)="onSearchP(newRecord)">
+          {{ button }}
+        </button>
+        <!-- <add-form [fields]='searchFields1' [(newRecord)]='newRecord' [button]="button" (onAdd)="onSearchP($event)"></add-form> -->
+        <data-grid [(data)]="data" (ondelete)="onDelete($event)" [fields]='fields' [selectedApp]='dataService.selectedApp.name' *ngIf='callGrid'></data-grid>
+      </span>
+
+    </div>
+  </div>
+</div>

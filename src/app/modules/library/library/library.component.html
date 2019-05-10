@@ -1,0 +1,31 @@
+<div class="container students-view">
+  <span class="selected-app-name">Library Book</span>
+  <span style="padding-left:100px" *ngIf="frontVisible && tempUser.roleId != '3'">
+    <mat-form-field>
+      <input matInput placeholder="Search Book" [(ngModel)]='book'>
+    </mat-form-field>
+    <span (click)="search(book)">
+      <button mat-raised-button color="primary">
+        <mat-icon>search</mat-icon>Search</button>
+    </span>
+  </span>
+  <span class="row go-icon" *ngIf="frontVisible && tempUser.roleId == '3'">
+    <span (click)="flip()">
+      <button mat-button color="primary">
+        <mat-icon>add</mat-icon>Add New Book</button>
+    </span>
+  </span>
+  <span class="row go-icon" *ngIf="!frontVisible">
+    <span (click)="flip()">
+      <button mat-button color="primary">View All Books</button>
+    </span>
+  </span>
+  <div class="card" [style.width.px]="data.width" [style.height.px]="data.height">
+    <div class="front" *ngIf="frontVisible">
+      <data-grid [(data)]="data" [fields]='fields' (ondelete)="onDelete($event)" [selectedApp]='dataService.selectedApp.name' *ngIf='callGrid'></data-grid>
+    </div>
+    <div class="back" *ngIf="!frontVisible">
+      <add-form [fields]='addFields' [(newRecord)]='newRecord' (onAdd)="addNewStudent($event)"></add-form>
+    </div>
+  </div>
+</div>

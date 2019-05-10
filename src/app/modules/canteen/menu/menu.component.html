@@ -1,0 +1,586 @@
+<div class="container students-view">
+  <span class="selected-app-name" *ngIf="!showCart">{{user.selectedApp.name}}</span>
+  <span class="selected-app-name" *ngIf="showCart">Cart Items</span>
+  <span class="row go-icon" *ngIf="frontVisible">
+    <span (click)="flip()">
+      <button mat-button color="primary">
+        <mat-icon>add</mat-icon>Add Menu</button>
+    </span>
+    <span (click)="cart()">
+      <button mat-button color="primary">
+        <mat-icon>shopping_cart</mat-icon>View Cart</button>
+    </span>
+  </span>
+  <span class="row go-icon" *ngIf="!frontVisible">
+    <span (click)="flip()">
+      <button mat-button color="primary">View Menu</button>
+    </span>
+  </span>
+  <div class="card" [style.width.px]="data.width" [style.height.px]="data.height">
+    <div class="front" *ngIf="frontVisible" [style.width.px]="data.width" [style.height.px]="data.height">
+      <div *ngIf="callGrid" class="menu-table" [style.max-height.px]="data.height">
+        <mat-accordion *ngIf="startersTemp">
+          <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <span>
+                  <b>Starters</b>
+                </span>
+              </mat-panel-title>
+              <mat-panel-description>
+                <mat-icon color="danger" class="cursor-pointer danger" title="Delete Menu" (click)="deleteMenu('STARTERS')">delete</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <table style="margin:10px;width:100%;border-bottom:1px solid" border=1 *ngIf="startersTemp">
+              <tr>
+                <td style='width:20%'>
+                  <h3 class="cursor-pointer" *ngFor="let starter of startersTemp.subMenuList; let i = index;" (click)="showStartersMenu=i">
+                    {{starter.name}}
+                    <!-- <pre>{{starter | json}}</pre> -->
+                  </h3>
+                  <!-- <h3 class="cursor-pointer" (click)="showStartersMenu=1">Paneer</h3>
+                  <h3 class="cursor-pointer" (click)="showStartersMenu=2">Chicken</h3>
+                  <h3 class="cursor-pointer" (click)="showStartersMenu=4">SeaFood</h3> -->
+                </td>
+                <td>
+                  <span *ngFor="let starter of startersTemp.subMenuList; let i = index;" class="menu-details">
+                    <table *ngIf="starter.itemsList.length && showStartersMenu === i">
+                      <tr>
+                        <td>
+                          <b>Order For</b>
+                        </td>
+                        <td>
+                          <b>Item Name</b>
+                        </td>
+                        <td>
+                          <b>Price (Rs)</b>
+                        </td>
+                        <td>
+                          <b>Quantity</b>
+                        </td>
+                        <td>Delete Item</td>
+                      </tr>
+                      <tbody [style.max-height.px]="100">
+                        <tr *ngFor="let item of starter.itemsList">
+                          <td>{{item.orderFor}}</td>
+                          <td>{{item.itemName}}</td>
+                          <td>{{item.price}}</td>
+                          <td>
+                            <mat-icon (click)="deleteItem(item,'starters',starter.name)" class="cursor-pointer" style="font-size: 17px;color: red;">delete</mat-icon>
+                            {{item.quantity || 0}}
+                            <mat-icon (click)="addItem(item,'starters',starter.name)" class="cursor-pointer" style="font-size: 17px;color:green;">add</mat-icon>
+                          </td>
+                          <td>
+                            <mat-icon (click)="deleteItemFromMenu(item,'STARTERS',starter.name)" class="cursor-pointer" style="font-size: 17px;color: #d9534f;">delete</mat-icon>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <h2 *ngIf="!starter.itemsList.length">{{starter.name}} Starters Not Available </h2>
+                  </span>
+                  <!-- <div *ngIf="showStartersMenu === 1" class="menu-details">
+                    <table *ngIf="starters.paneer.length">
+                      <tr>
+                        <td>
+                          <b>Order For</b>
+                        </td>
+                        <td>
+                          <b>Item Name</b>
+                        </td>
+                        <td>
+                          <b>Price (Rs)</b>
+                        </td>
+                        <td>
+                          <b>Quantity</b>
+                        </td>
+                      </tr>
+                      <tr *ngFor="let item of starters.paneer">
+                        <td>{{item.orderFor}}</td>
+                        <td>{{item.itemName}}</td>
+                        <td>{{item.price}}</td>
+                        <td>
+                          <mat-icon (click)="deleteItem(item,'starters','paneer')" class="cursor-pointer" style="font-size: 17px;color: red;">delete</mat-icon>
+                          {{item.quantity || 0}}
+                          <mat-icon (click)="addItem(item,'starters','paneer')" class="cursor-pointer" style="font-size: 17px;color:green;">add</mat-icon>
+                        </td>
+                      </tr>
+                    </table>
+                    <h2 *ngIf="!starters.paneer.length">Paneer Starters Not Available </h2>
+                  </div>
+                  <div *ngIf="showStartersMenu === 2" class="menu-details">
+                    <table *ngIf="starters.chicken.length">
+                      <tr>
+                        <td>
+                          <b>Order For</b>
+                        </td>
+                        <td>
+                          <b>Item Name</b>
+                        </td>
+                        <td>
+                          <b>Price (Rs)</b>
+                        </td>
+                        <td>
+                          <b>Quantity</b>
+                        </td>
+                      </tr>
+                      <tr *ngFor="let item of starters.chicken">
+                        <td>{{item.orderFor}}</td>
+                        <td>{{item.itemName}}</td>
+                        <td>{{item.price}}</td>
+                        <td>
+                          <mat-icon (click)="deleteItem(item,'starters','chicken')" class="cursor-pointer" style="font-size: 17px;color: red;">delete</mat-icon>
+                          {{item.quantity || 0}}
+                          <mat-icon (click)="addItem(item,'starters','chicken')" class="cursor-pointer" style="font-size: 17px;color:green;">add</mat-icon>
+                        </td>
+                      </tr>
+                    </table>
+                    <h2 *ngIf="!starters.chicken.length">Chicken Starters Not Available</h2>
+                  </div>
+                  <div *ngIf="showStartersMenu === 4" class="menu-details">
+                    <table *ngIf="starters.seaFood.length">
+                      <tr>
+                        <td>
+                          <b>Order For</b>
+                        </td>
+                        <td>
+                          <b>Item Name</b>
+                        </td>
+                        <td>
+                          <b>Price (Rs)</b>
+                        </td>
+                        <td>
+                          <b>Quantity</b>
+                        </td>
+                      </tr>
+                      <tr *ngFor="let item of starters.seaFood">
+                        <td>{{item.orderFor}}</td>
+                        <td>{{item.itemName}}</td>
+                        <td>{{item.price}}</td>
+                        <td>
+                          <mat-icon (click)="deleteItem(item,'starters','seaFood')" class="cursor-pointer" style="font-size: 17px;color: red;">delete</mat-icon>
+                          {{item.quantity || 0}}
+                          <mat-icon (click)="addItem(item,'starters','seaFood')" class="cursor-pointer" style="font-size: 17px;color:green;">add</mat-icon>
+                        </td>
+                      </tr>
+                    </table>
+                    <h2 *ngIf="!starters.seaFood.length">Sea Food Starters Not Available </h2>
+                  </div> -->
+                </td>
+              </tr>
+            </table>
+          </mat-expansion-panel>
+        </mat-accordion>
+        <mat-accordion *ngIf="mainCourseTemp">
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <span>
+                  <b>Main Course</b>
+                </span>
+              </mat-panel-title>
+              <mat-panel-description>
+                <mat-icon color="danger" class="cursor-pointer danger" title="Delete Menu" (click)="deleteMenu('MAIN COURSE')">delete</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <table style="margin:10px;width:100%;border-bottom:1px solid" border=1 *ngIf="mainCourseTemp">
+              <tr>
+                <td style='width:20%'>
+                  <h3 class="cursor-pointer" *ngFor="let starter of mainCourseTemp.subMenuList; let i = index;" (click)="showMainCourseMenu=i">
+                    {{starter.name}}
+                  </h3>
+                </td>
+                <td>
+                  <span *ngFor="let starter of mainCourseTemp.subMenuList; let i = index;" class="menu-details">
+                    <table *ngIf="starter.itemsList.length && showMainCourseMenu === i">
+                      <tr>
+                        <td>
+                          <b>Order For</b>
+                        </td>
+                        <td>
+                          <b>Item Name</b>
+                        </td>
+                        <td>
+                          <b>Price (Rs)</b>
+                        </td>
+                        <td>
+                          <b>Quantity</b>
+                        </td>
+                        <td>Delete Item</td>
+                      </tr>
+                      <tbody [style.max-height.px]="100">
+                        <tr *ngFor="let item of starter.itemsList">
+                          <td>{{item.orderFor}}</td>
+                          <td>{{item.itemName}}</td>
+                          <td>{{item.price}}</td>
+                          <td>
+                            <mat-icon (click)="deleteItem(item,'mainCourse',starter.name)" class="cursor-pointer" style="font-size: 17px;color: red;">delete</mat-icon>
+                            {{item.quantity || 0}}
+                            <mat-icon (click)="addItem(item,'mainCourse',starter.name)" class="cursor-pointer" style="font-size: 17px;color:green;">add</mat-icon>
+                          </td>
+                          <td>
+                            <mat-icon (click)="deleteItemFromMenu(item,'MAIN COURSE',starter.name)" class="cursor-pointer" style="font-size: 17px;color: #d9534f;">delete</mat-icon>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <h2 *ngIf="!starter.itemsList.length">{{starter.name}} Main Course Not Available </h2>
+                  </span>
+                </td>
+              </tr>
+            </table>
+            <!-- <table style="margin:10px;width:100%;border-bottom:1px solid" border=1>
+              <tr>
+                <td style='width:20%'>
+                  <h3 class="cursor-pointer" (click)="showMainCourseMenu=0">Veg</h3>
+                  <h3 class="cursor-pointer" (click)="showMainCourseMenu=1">Non-Veg</h3>
+                </td>
+                <td>
+                  <div *ngIf="showMainCourseMenu === 0" class="menu-details">
+                    <table *ngIf="mainCourse.veg.length">
+                      <tr>
+                        <td>
+                          <b>Order For</b>
+                        </td>
+                        <td>
+                          <b>Item Name</b>
+                        </td>
+                        <td>
+                          <b>Price (Rs)</b>
+                        </td>
+                        <td>
+                          <b>Quantity</b>
+                        </td>
+                      </tr>
+                      <tbody [style.max-height.px]="100">
+                        <tr *ngFor="let item of mainCourse.veg">
+                          <td>{{item.orderFor}}</td>
+                          <td>{{item.itemName}}</td>
+                          <td>{{item.price}}</td>
+                          <td>
+                            <mat-icon (click)="deleteItem(item,'mainCourse','veg')" class="cursor-pointer" style="font-size: 17px;color: red;">delete</mat-icon>
+                            {{item.quantity || 0}}
+                            <mat-icon (click)="addItem(item,'mainCourse','veg')" class="cursor-pointer" style="font-size: 17px;color:green;">add</mat-icon>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <h2 *ngIf="!mainCourse.veg.length">Veg Main Course Items Not Available</h2>
+                  </div>
+                  <div *ngIf="showMainCourseMenu === 1" class="menu-details">
+                    <table *ngIf="mainCourse.nonVeg.length">
+                      <tr>
+                        <td>
+                          <b>Order For</b>
+                        </td>
+                        <td>
+                          <b>Item Name</b>
+                        </td>
+                        <td>
+                          <b>Price (Rs)</b>
+                        </td>
+                        <td>
+                          <b>Quantity</b>
+                        </td>
+                      </tr>
+                      <tbody [style.max-height.px]="100">
+                        <tr *ngFor="let item of mainCourse.nonVeg">
+                          <td>{{item.orderFor}}</td>
+                          <td>{{item.itemName}}</td>
+                          <td>{{item.price}}</td>
+                          <td>
+                            <mat-icon (click)="deleteItem(item,'mainCourse','nonVeg')" class="cursor-pointer" style="font-size: 17px;color: red;">delete</mat-icon>
+                            {{item.quantity || 0}}
+                            <mat-icon (click)="addItem(item,'mainCourse','nonVeg')" class="cursor-pointer" style="font-size: 17px;color:green;">add</mat-icon>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <h2 *ngIf="!mainCourse.nonVeg.length">Non Veg Main Course Items Not Available</h2>
+                  </div>
+                </td>
+              </tr>
+            </table> -->
+          </mat-expansion-panel>
+        </mat-accordion>
+        <mat-accordion *ngIf="dessertsTemp">
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <span>
+                  <b>Desserts</b>
+                </span>
+              </mat-panel-title>
+              <mat-panel-description>
+                <mat-icon color="danger" class="cursor-pointer danger" title="Delete Menu" (click)="deleteMenu('DESSERTS')">delete</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <table style="margin:10px;width:100%;border-bottom:1px solid" border=1 *ngIf="dessertsTemp">
+              <tr>
+                <td style='width:20%'>
+                  <h3 class="cursor-pointer" *ngFor="let starter of dessertsTemp.subMenuList; let i = index;" (click)="showDessertsMenu=i">
+                    {{starter.name}}
+                  </h3>
+                </td>
+                <td>
+                  <span *ngFor="let starter of dessertsTemp.subMenuList; let i = index;" class="menu-details">
+                    <table *ngIf="starter.itemsList.length && showDessertsMenu === i">
+                      <tr>
+                        <td>
+                          <b>Order For</b>
+                        </td>
+                        <td>
+                          <b>Item Name</b>
+                        </td>
+                        <td>
+                          <b>Price (Rs)</b>
+                        </td>
+                        <td>
+                          <b>Quantity</b>
+                        </td>
+                        <td>Delete Item</td>
+                      </tr>
+                      <tbody [style.max-height.px]="100">
+                        <tr *ngFor="let item of starter.itemsList">
+                          <td>{{item.orderFor}}</td>
+                          <td>{{item.itemName}}</td>
+                          <td>{{item.price}}</td>
+                          <td>
+                            <mat-icon (click)="deleteItem(item,'desserts',starter.name)" class="cursor-pointer" style="font-size: 17px;color: red;">delete</mat-icon>
+                            {{item.quantity || 0}}
+                            <mat-icon (click)="addItem(item,'desserts',starter.name)" class="cursor-pointer" style="font-size: 17px;color:green;">add</mat-icon>
+                          </td>
+                          <td>
+                            <mat-icon (click)="deleteItemFromMenu(item,'DESSERTS',starter.name)" class="cursor-pointer" style="font-size: 17px;color: #d9534f;">delete</mat-icon>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <h2 *ngIf="!starter.itemsList.length">{{starter.name}} Not Available </h2>
+                  </span>
+                </td>
+              </tr>
+            </table>
+            <!-- <table style="margin:10px;width:100%;border-bottom:1px solid" border=1>
+              <tr>
+                <td style='width:20%'>
+                  <h3 class="cursor-pointer" (click)="showDessertsMenu=0">Desserts</h3>
+                </td>
+                <td>
+                  <div *ngIf="showDessertsMenu === 0" class="menu-details">
+                    <table *ngIf="desserts.length">
+                      <tr>
+                        <td>
+                          <b>Order For</b>
+                        </td>
+                        <td>
+                          <b>Item Name</b>
+                        </td>
+                        <td>
+                          <b>Price (Rs)</b>
+                        </td>
+                        <td>
+                          <b>Quantity</b>
+                        </td>
+                      </tr>
+                      <tbody [style.max-height.px]="100">
+                        <tr *ngFor="let item of desserts">
+                          <td>{{item.orderFor}}</td>
+                          <td>{{item.itemName}}</td>
+                          <td>{{item.price}}</td>
+                          <td>
+                            <mat-icon (click)="deleteItem(item,'desserts')" class="cursor-pointer" style="font-size: 17px;color: red;">delete</mat-icon>
+                            {{item.quantity || 0}}
+                            <mat-icon (click)="addItem(item,'desserts')" class="cursor-pointer" style="font-size: 17px;color:green;">add</mat-icon>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <h2 *ngIf="!desserts.length">Desserts Not Available</h2>
+                  </div>
+                </td>
+              </tr>
+            </table> -->
+          </mat-expansion-panel>
+        </mat-accordion>
+        <mat-accordion *ngIf="beveragesTemp">
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <span>
+                  <b>Beverages</b>
+                </span>
+              </mat-panel-title>
+              <mat-panel-description>
+                <mat-icon color="danger" class="cursor-pointer danger" title="Delete Menu" (click)="deleteMenu('DRINKS')">delete</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <table style="margin:10px;width:100%;border-bottom:1px solid" border=1>
+              <tr>
+                <td style='width:20%'>
+                  <h3 class="cursor-pointer" *ngFor="let starter of beveragesTemp.subMenuList; let i = index;" (click)="showBeveragesMenu=i">
+                    {{starter.name}}
+                  </h3>
+                </td>
+                <td>
+                  <span *ngFor="let starter of beveragesTemp.subMenuList; let i = index;" class="menu-details">
+                    <table *ngIf="starter.itemsList.length && showBeveragesMenu === i">
+                      <tr>
+                        <td>
+                          <b>Order For</b>
+                        </td>
+                        <td>
+                          <b>Item Name</b>
+                        </td>
+                        <td>
+                          <b>Price (Rs)</b>
+                        </td>
+                        <td>
+                          <b>Quantity</b>
+                        </td>
+                        <td>Delete Item</td>
+                      </tr>
+                      <tbody [style.max-height.px]="100">
+                        <tr *ngFor="let item of starter.itemsList">
+                          <td>{{item.orderFor}}</td>
+                          <td>{{item.itemName}}</td>
+                          <td>{{item.price}}</td>
+                          <td>
+                            <mat-icon (click)="deleteItem(item,'beverages',starter.name)" class="cursor-pointer" style="font-size: 17px;color: red;">delete</mat-icon>
+                            {{item.quantity || 0}}
+                            <mat-icon (click)="addItem(item,'beverages',starter.name)" class="cursor-pointer" style="font-size: 17px;color:green;">add</mat-icon>
+                          </td>
+                          <td>
+                            <mat-icon (click)="deleteItemFromMenu(item,'DRINKS',starter.name)" class="cursor-pointer" style="font-size: 17px;color: #d9534f;">delete</mat-icon>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <h2 *ngIf="!starter.itemsList.length">{{starter.name}} Not Available </h2>
+                  </span>
+                </td>
+              </tr>
+            </table>
+            <!-- <table style="margin:10px;width:100%;border-bottom:1px solid" border=1>
+              <tr>
+                <td style='width:20%'>
+                  <h3 class="cursor-pointer" (click)="showBeveragesMenu=0">Beverages</h3>
+                </td>
+                <td>
+                  <div *ngIf="showBeveragesMenu === 0" class="menu-details">
+                    <table *ngIf="beverages.length">
+                      <tr>
+                        <td>
+                          <b>Order For</b>
+                        </td>
+                        <td>
+                          <b>Item Name</b>
+                        </td>
+                        <td>
+                          <b>Price (Rs)</b>
+                        </td>
+                        <td>
+                          <b>Quantity</b>
+                        </td>
+                      </tr>
+                      <tbody [style.max-height.px]="100">
+                        <tr *ngFor="let item of beverages">
+                          <td>{{item.orderFor}}</td>
+                          <td>{{item.itemName}}</td>
+                          <td>{{item.price}}</td>
+                          <td>
+                            <mat-icon (click)="deleteItem(item,'beverages')" class="cursor-pointer" style="font-size: 17px;color: red;">delete</mat-icon>
+                            {{item.quantity || 0}}
+                            <mat-icon (click)="addItem(item,'beverages')" class="cursor-pointer" style="font-size: 17px;color:green;">add</mat-icon>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <h2 *ngIf="!beverages.length">Beverages Not Available</h2>
+                  </div>
+                </td>
+              </tr>
+            </table> -->
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    </div>
+    <div class="back" *ngIf="!frontVisible" [style.width.px]="data.width" [style.height.px]="data.height">
+      <div *ngIf="!showCart">
+        <span *ngFor="let field of fields">
+          <mat-form-field *ngIf="field.element==='dropdown' && field.field !== 'subMenu'">
+            <mat-select placeholder="{{field.label}}" [(ngModel)]='newRecord[field.field]' [(value)]='newRecord[field.field]'>
+              <mat-option *ngFor="let value of field.values" [value]="value.examName || value.subjectName || value[field.field] ||value.name || value.id|| value">
+                {{ value.examName || value.value || value.subjectName || value[field.field] || value.name || value.id || value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field *ngIf="field.element==='input' && !field.hide">
+            <input matInput placeholder="{{field.label}}" [(ngModel)]='newRecord[field.field]'>
+          </mat-form-field>
+        </span>
+        <div class="buttons-row" style="margin-left: 40%;">
+          <button color="primary" mat-raised-button (click)="addNewStudent(newRecord)">
+            <mat-icon>add_circle</mat-icon> {{ 'Add Menu' || 'Add'}}
+          </button>
+          <button mat-raised-button color="warn" (click)="cancel()">
+            <mat-icon>cancel</mat-icon> Cancel
+          </button>
+        </div>
+      </div>
+      <!-- <add-form *ngIf="!showCart" [fields]='fields' [(newRecord)]='newRecord' (onAdd)="addNewStudent($event)"></add-form> -->
+      <div *ngIf="showCart" class="menu-table" [style.max-height.px]="data.height">
+        <div class="menu-details">
+          <div style="font-size: 15px;padding: 10px;border-bottom: 1px solid gray;margin-bottom: 10px;">
+            <!-- <b>Customer Name</b>
+            <input type="text" [(ngModel)]="customerName" name="name" style="border-bottom: 1px solid;" />
+            <b>Phone Number</b>
+            <input type="text" [(ngModel)]="customerPhone" name="phone" style="border-bottom: 1px solid;" /> -->
+            <b>Payment Mode</b>
+            <mat-select style="width:150px;font-size: 14px;margin-left:10px" [(ngModel)]="paymentMode">
+              <mat-option value='select'>Select</mat-option>
+              <mat-option value='card'>Card</mat-option>
+              <mat-option value='cash'>Cash</mat-option>
+            </mat-select>
+            <button mat-raised-button color="primary" (click)="submitOrder()">Submit Order</button>
+          </div>
+          <table *ngIf="cartItems.length" style="font-size: 20px;">
+            <tr>
+              <td>
+                <b>Item Name</b>
+              </td>
+              <td>
+                <b>Quantity</b>
+              </td>
+              <td>
+                <b>Price (Rs)</b>
+              </td>
+            </tr>
+            <tbody [style.max-height.px]="100">
+              <tr *ngFor="let item of cartItems">
+                <td>{{item.itemName}}</td>
+                <td>
+                  <!-- <mat-icon (click)="deleteItem(item,'beverages')" class="cursor-pointer" style="font-size: 17px;color: red;">delete</mat-icon> -->
+                  {{item.quantity || 0}}
+                  <!-- <mat-icon (click)="addItem(item,'beverages')" class="cursor-pointer" style="font-size: 17px;color:green;">add</mat-icon> -->
+                </td>
+                <td>{{item.price}}</td>
+              </tr>
+            </tbody>
+            <tr>
+              <td>
+                <b style="color:#d9534f">Total</b>
+              </td>
+              <td>
+                <b>{{quantity}}</b>
+              </td>
+              <td>
+                <b>{{price}}</b>
+              </td>
+            </tr>
+          </table>
+          <h2 *ngIf="!cartItems.length">Cart Is Empty</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

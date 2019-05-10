@@ -1,0 +1,133 @@
+<div class="container students-view">
+  <span class="selected-app-name">{{user.selectedApp.name}}</span>
+  <span class="row" style="position: absolute;left: 200px;top: 10px;" *ngIf="!frontVisible && callGrid && student">
+    <h4>
+      <b>Total Absent Percentage : </b>{{data.totalAbsentPercentage}} %
+      <b>Total Present Percentage: </b>{{data.totalPresentPercentage}} %</h4>
+  </span>
+  <span class="row go-icon" *ngIf="!frontVisible">
+    <span (click)="flip()">
+      <button mat-button color="primary">Back</button>
+    </span>
+  </span>
+  <div class="card results" [style.width.px]="data.width" [style.height.px]="data.height">
+    <div class="front" *ngIf="frontVisible" style="text-align: center;">
+      <h1 class="cursor-pointer" (click)="personal = true;student = false;report=false;flip();getPersonalData()">
+        Personal Attendance
+      </h1>
+      <h1 class="cursor-pointer" (click)="student = true;personal = false;report=false;flip();getData()">
+        Student Attendance
+      </h1>
+
+      <h1 class="cursor-pointer" (click)="student = false;personal = false;report=true;flip()">
+        Report Attendance
+      </h1>
+      <!-- <h3 *ngIf='callGrid'>
+        <b> Absent Count:</b>{{data.absentCount}}
+        <br />
+        <b> Attendances:</b>{{data.attendances}}
+        <br />
+        <b> Present Count:</b>{{data.presentCount}}
+        <br />
+        <b> Semester:</b>{{data.semester}}
+        <br />
+        <b> Total Absent Percentage:</b>{{data.totalAbsentPercentage}}%
+        <br />
+        <b> Total Present Percentage:</b>{{data.totalPresentPercentage}}%
+        <br />
+        <b> Year:</b>{{data.year}}
+        <br />
+      </h3> -->
+    </div>
+    <div class="back" *ngIf="!frontVisible">
+      <span *ngIf="student">
+        <add-form [fields]='searchFields' [(newRecord)]='newRecord' [button]="button" (onAdd)="onSearch($event)"></add-form>
+        <data-grid [(data)]="data" [fields]='fields' [selectedApp]='dataService.selectedApp.name' (ondelete)="onDelete($event)" *ngIf='callGrid'></data-grid>
+      </span>
+      <span *ngIf="personal" class="personal">
+        <!-- <data-grid [(data)]="data" [fields]='fields' (ondelete)="onDelete($event)" [selectedApp]='dataService.selectedApp.name' *ngIf='callGrid'></data-grid> -->
+        <table border=1 *ngIf='callGrid' style="width: 50%;margin-left: 20%;margin-top: 5%;font-size: 20px;text-align: center;">
+          <tr>
+            <td>
+              <b>Employee Id</b>
+            </td>
+            <td>{{data.data[0].employeeId}}</td>
+          </tr>
+          <tr>
+            <td>
+              <b>Present Count</b>
+            </td>
+            <td>{{data.data[0].presentCount}}</td>
+          </tr>
+          <tr>
+            <td>
+              <b>Absent Count</b>
+            </td>
+            <td>{{data.data[0].absentCount}}</td>
+          </tr>
+          <tr>
+            <td>
+              <b>Total Present Percentage</b>
+            </td>
+            <td>{{data.data[0].totalPresentPercentage}} %</td>
+          </tr>
+        </table>
+      </span>
+      <span *ngIf="report">
+        <add-form [fields]='searchFields1' [(newRecord)]='newRecord' [button]="'Report Attendance'" (onAdd)="reportAttendance($event)"></add-form>
+        <div *ngIf="callTable">
+          <h1>Report Daily Attendance</h1>
+          <div style="max-height: 250px; overflow:auto">
+            <table border=1 style="    width:96%;margin: 0 20px;
+          font-size: 20px;
+          text-align: center;">
+              <tr>
+                <td>
+                  <b>S.No</b>
+                </td>
+                <td>
+                  <b>Student Id</b>
+                </td>
+
+                <td>
+                  <b>Subject</b>
+                </td>
+                <td>
+                  <b>Date</b>
+                </td>
+                <td>
+                  <b>Attendance</b>
+                </td>
+              </tr>
+              <tbody style="max-height:300px;overflow-y:scroll">
+                <tr *ngFor="let student of students">
+                  <td>{{student.SNo}}</td>
+                  <td>{{student.studentId}}</td>
+                  <td>{{student.subjectName}}</td>
+                  <td style="padding-left:14px;width:300px;font-size: 14px">
+                    <input type="date" [(ngModel)]="student.date" />
+                  </td>
+                  <td style="padding-left:14px;width:300px;font-size: 14px">
+                    <mat-radio-group class="example-radio-group" [(ngModel)]="student.attendance">
+                      <mat-radio-button class="example-radio-button" [value]="1">
+                        Present
+                      </mat-radio-button>
+                      <mat-radio-button class="example-radio-button" [value]="2">
+                        Absent
+                      </mat-radio-button>
+                    </mat-radio-group>
+                    <!-- <mat-select placeholder="Select" [(ngModel)]='student.attendance' [(value)]='student.attendance'>
+                      <mat-option [value]="1">Present</mat-option>
+                      <mat-option [value]="2">Absent</mat-option>
+                    </mat-select> -->
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <button style="margin-top:20px;margin-left:40%" mat-raised-button color='primary' (click)="postAttendance()">Post Attendance</button>
+        </div>
+      </span>
+    </div>
+  </div>
+</div>

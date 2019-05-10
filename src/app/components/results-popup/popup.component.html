@@ -1,0 +1,62 @@
+<form class="popup-form">
+  <div class="row popup-header">Results Details</div>
+  <table style="margin-top:10px; width:60%">
+    <tr *ngIf="data.studentId">
+      <td>
+        <h4>
+          <b>Student Id:</b>
+        </h4>
+      </td>
+      <td>
+        <h4>{{data.studentId}}</h4>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <h4>
+          <b>Student Name: </b>
+        </h4>
+      </td>
+      <td>
+        <h4>{{data.studentName}}</h4>
+      </td>
+    </tr>
+    <tr *ngIf="data.examName">
+      <td>
+        <h4>
+          <b>Exam Name: </b>
+        </h4>
+      </td>
+      <td>
+        <h4>{{data.examName}}</h4>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <h4>
+          <b>Results: </b>
+        </h4>
+      </td>
+      <td>
+        <h4>{{data.results}}</h4>
+      </td>
+    </tr>
+  </table>
+  <br/>
+  <table style="font-size:14px;width:80%" border='1'>
+    <tr>
+      <td style="padding-left:10px">
+        <b>Subject</b>
+      </td>
+      <td style="padding-left:10px">
+        <b>Marks</b>
+      </td>
+    </tr>
+    <tr *ngFor="let subject of data.subjects">
+      <td style="padding-left:10px">{{subject}}</td>
+      <td style="padding-left:10px">{{data.marks[subject]}}</td>
+    </tr>
+  </table>
+  <br/>
+  <button mat-raised-button color="primary" (click)='printResults()'>Print</button>
+</form>

@@ -1,0 +1,8 @@
+{
+    "compilerOptions": {
+        "module":"commonjs",
+        "experimentalDecorators": true,
+        "allowJs": true,
+        "target": "es5"
+    }
+}

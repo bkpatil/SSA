@@ -1,0 +1,47 @@
+<div class="container students-view">
+  <span class="selected-app-name">{{user.selectedApp.name}}</span>
+  <div class="card" [style.width.px]="data.width" [style.height.px]="data.height">
+    <div class="front" *ngIf="frontVisible">
+      <table style='width:97%;font-size: 14px;margin:25px' [style.height.px]="data.height-30" *ngIf="displayTrue">
+        <tr>
+          <td style="width:20%" valign="top">
+            <button (click)='compose()' color="primary" mat-raised-button class="cursor-pointer">Compose</button>
+            <h2 (click)='inbox()' class="cursor-pointer" style="margin: 10px;">Inbox ({{data.inbox.length}})</h2>
+            <h2 (click)='sent()' class="cursor-pointer" style="margin: 10px;">Sent ({{data.sentBox.length}})</h2>
+          </td>
+          <td *ngIf="!composeMail && mails" valign="top" style="border-left:1px dashed gray;padding-left: 10px;width:30%">
+            <div [style.max-height.px]="data.height-30" style="overflow-y:auto">
+              <div *ngFor="let mail of mails" style="border-bottom:1px solid gray;" class="cursor-pointer" (click)="setActiveMail(mail)">
+                <span><b>{{mail.sender}}</b></span>
+                <span> {{convertTime(mail.time)}}</span>
+                <br/>
+                <b>{{mail.subject}}</b>
+              </div>
+            </div>
+
+          </td>
+          <td *ngIf="!composeMail && activeMail && mails" valign="top" style="border-left:1px dashed gray;padding: 0 10px;">
+            <span>
+              <b>Sender: </b> {{activeMail.sender}}</span>
+            <br/>
+            <span>{{convertTime(activeMail.time)}}</span>
+            <br/>
+            <span>
+              <b>To: </b> {{activeMail.receiver}}</span>
+            <br/>
+            <span>
+              <b>Subject: {{activeMail.subject}}</b>
+            </span>
+            <br/>
+            <hr/>
+            <span>{{activeMail.message}}</span>
+            <br/>
+          </td>
+          <td *ngIf="!mails">
+            <h1>No Mails To Display</h1>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

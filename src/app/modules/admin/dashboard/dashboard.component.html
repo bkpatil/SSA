@@ -1,0 +1,22 @@
+<div class="dashboard-wrapper">
+    <mat-grid-list cols="6" rowHeight="{{tile.rowHeight}}" gutterSize="15px">
+        <mat-grid-tile [colspan]="4" [rowspan]="1" [style.background]="tile.color">
+            <app-chart [(config)]='externalConfig'></app-chart>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="2" [rowspan]="2" [style.background]="tile.color">
+           <!-- <todo-list></todo-list> -->
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="4" [rowspan]="1" [style.background]="tile.color">
+            <app-chart [(config)]='internalConfig'></app-chart>
+        </mat-grid-tile>
+        <!-- <mat-grid-tile [colspan]="2" [rowspan]="1" [style.background]="tile.color">
+            <todo-list></todo-list>
+        </mat-grid-tile> -->
+        <mat-grid-tile [colspan]="4" [rowspan]="1" [style.background]="tile.color">
+            <app-chart [(config)]='feedbackConfig'></app-chart>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="2" [rowspan]="1" [style.background]="tile.color">
+            <data-grid [(data)]="lowerAttandanceDetails" [(fields)]="lowerAttandanceDetails.fields" *ngIf="showGrid"></data-grid>
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>

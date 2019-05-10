@@ -1,0 +1,109 @@
+<style>
+  .testing table tr td {
+    padding: 5px !important;
+  }
+</style>
+
+<form class="popup-form" *ngIf="!data.edit">
+  <div class="row popup-header testing">Fee Details</div>
+  <div *ngIf="data['EmployeeId']">
+    <br/>
+    <h2>
+      <table style="width:100%">
+          <tr>
+            <td>
+              <b>Employee Name</b>
+            </td>
+            <td>{{data['Employee Name']}}</td>
+          </tr>
+          <tr>
+            <td>
+              <b>Employee Id</b>
+            </td>
+            <td>{{data['EmployeeId']}}</td>
+          </tr>
+          <tr>
+              <td>
+                <b>Amount: </b>
+              </td>
+              <td>
+                <input type="text" class="form-control" [(ngModel)]='amount' [ngModelOptions]="{standalone: true}" />
+              </td>
+            </tr>
+            <tr>
+                <td>
+                  <b>Payment Date: </b>
+                </td>
+                <td>
+                  <input type="date" class="form-control" [(ngModel)]='date' [ngModelOptions]="{standalone: true}" />
+                </td>
+              </tr>
+            <tr style="text-align: center;">
+              <td colspan="2">
+                <button mat-raised-button color="primary" (click)="submitPayment()">Submit Payment</button>
+                <button mat-raised-button color="default" (click)="clearPayment()">Clear</button>
+              </td>
+            </tr>
+        </table>
+    </h2>
+  </div>
+  <div *ngIf="!data['EmployeeId']" style="margin-left:30%">
+    <h2>No Data To Display</h2>
+  </div>
+</form>
+
+
+<form class="popup-form" *ngIf="data.edit">
+    <div class="row popup-header testing">Fee Details</div>
+    <div *ngIf="data['EmployeeId']">
+      <br/>
+      <h2>
+        <table style="width:100%">
+            <tr>
+              <td>
+                <b>Employee Name</b>
+              </td>
+              <td>{{data['Employee Name']}}</td>
+            </tr>
+            <tr>
+              <td>
+                <b>Employee Id</b>
+              </td>
+              <td>{{data['EmployeeId']}}</td>
+            </tr>
+            <tr>
+                <td>
+                  <b>Pending Amount: </b>
+                </td>
+                <td>
+                  <input type="text" class="form-control" [(ngModel)]='amount' [ngModelOptions]="{standalone: true}" />
+                </td>
+              </tr>
+              <tr>
+                  <td>
+                    <b>Paid Amount: </b>
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" [(ngModel)]='paidAmount' [ngModelOptions]="{standalone: true}" />
+                  </td>
+                </tr>
+              <tr>
+                  <td>
+                    <b>Payment Date: </b>
+                  </td>
+                  <td>
+                    <input type="date" class="form-control" [(ngModel)]='date' [ngModelOptions]="{standalone: true}" />
+                  </td>
+                </tr>
+              <tr style="text-align: center;">
+                <td colspan="2">
+                  <button mat-raised-button color="primary" (click)="edit()">Edit Payment</button>
+                </td>
+              </tr>
+          </table>
+      </h2>
+    </div>
+    <div *ngIf="!data['EmployeeId']" style="margin-left:30%">
+      <h2>No Data To Display</h2>
+    </div>
+  </form>

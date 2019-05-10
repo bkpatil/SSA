@@ -1,0 +1,11 @@
+<div class="container students-view">
+    <span class="selected-app-name">{{user.selectedApp.name}}</span> 
+    <div class="card" [style.width.px]="data.width" [style.height.px]="data.height">
+      <div class="front" *ngIf="frontVisible">
+          <add-form [fields]='fields' [(newRecord)]='newRecord' (onAdd)="addNewStudent($event)"></add-form>
+      </div>
+      <div class="back" *ngIf="!frontVisible">
+        <add-form [fields]='fields' [(newRecord)]='newRecord' (onAdd)="addNewStudent($event)"></add-form>
+      </div>
+    </div>
+  </div>

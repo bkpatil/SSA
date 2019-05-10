@@ -1,0 +1,32 @@
+h3 {
+    font-style: italic;
+    padding: 10px;
+    color: #3f51b5;
+    font-weight: bold;
+}
+
+.menu-details {
+    padding: 10px;
+    h2 {
+        margin-top: 20px;
+    }
+}
+
+.menu-table {
+    text-align: center;
+    overflow-y: auto;
+    table {
+        width: 100%;
+        tr {
+            border-bottom: 1px dashed gray;
+            td {
+                vertical-align: top;
+            }
+        }
+    }
+}
+
+.danger {
+    color: #d9534f;
+    margin-left: 94%;
+}

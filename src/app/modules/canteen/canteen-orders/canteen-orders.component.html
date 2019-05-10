@@ -1,0 +1,31 @@
+<div class="container students-view">
+  <span class="selected-app-name">{{user.selectedApp.name}}</span>
+  <span style="font-size: 14px;" *ngIf="frontVisible">
+    From: <input type="date" [(ngModel)]="startDate" placeholder="start date" />
+     To: <input type="date" [(ngModel)]="endDate" placeholder="end date" />
+    <span (click)="getData()">
+      <button mat-raised-button color="primary" style="margin-bottom: 5px;">
+        <mat-icon>search</mat-icon>Search</button>
+    </span>
+  </span>
+ 
+  <div class="card" [style.width.px]="data.width" [style.height.px]="data.height">
+    <div class="front" *ngIf="frontVisible">
+      <data-grid [(data)]="data" [fields]='fields' [selectedApp]='dataService.selectedApp.name' (ondelete)="onDelete($event)" *ngIf='callGrid'></data-grid>
+    </div>
+    <div class="back" *ngIf="!frontVisible">
+    <h2 style="margin-left:20%;padding-top:10px"><b>Select Expense Type: </b><mat-select style="width:150px;font-size: 14px;margin-left:10px" [(ngModel)]="expensesType">
+      <mat-option value='select'>Select</mat-option>
+      <mat-option value='stock'>Stock</mat-option>
+      <mat-option value='asset'>Asset</mat-option>
+      <mat-option value='wages'>Wages</mat-option>
+      <mat-option value='other'>Other</mat-option>
+    </mat-select>
+    </h2>
+      <add-form [fields]='stockFields' *ngIf="expensesType === 'stock'" [(newRecord)]='newRecord' (onAdd)="addNewStudent($event)"></add-form>
+      <add-form [fields]='assetFields' *ngIf="expensesType === 'asset'" [(newRecord)]='newRecord' (onAdd)="addNewStudent($event)"></add-form>
+      <add-form [fields]='wagesFields' *ngIf="expensesType === 'wages'" [(newRecord)]='newRecord' (onAdd)="addNewStudent($event)"></add-form>
+      <add-form [fields]='otherFields' *ngIf="expensesType === 'other'" [(newRecord)]='newRecord' (onAdd)="addNewStudent($event)"></add-form>
+    </div>
+  </div>
+</div>

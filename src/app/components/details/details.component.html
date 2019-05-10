@@ -1,0 +1,9 @@
+<form class="popup-form">
+    <div class="row popup-header">{{data.name}}</div>
+    <div *ngIf="!data.readOnly">
+      <add-form [fields]='data.fields' [(newRecord)]='data.data' [button]="data.button" (onAdd)="addDetail($event)" (onCancel)="closePopup()"></add-form>
+    </div>
+    <div *ngIf="data.readOnly">
+      <add-form [fields]='data.fields' [(newRecord)]='data.data' [button]="data.button" [editable]="data.readOnly" (onAdd)="addDetail($event)" (onCancel)="closePopup()"></add-form>
+    </div>
+  </form>

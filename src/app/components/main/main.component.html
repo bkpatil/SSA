@@ -1,0 +1,142 @@
+<div *ngIf="user">
+	<div class="sidenav-wrapper">
+		<div class="sidenav-header">
+			<mat-toolbar color="primary">
+				<table class="left-text">
+					<tr>
+						<td>
+							<div class="school-name">Smart School Admin</div>
+						</td>
+					</tr>
+				</table>
+				<table class="right-text">
+					<tr>
+						<td class="text-right">
+							<button mat-raised-button *ngIf="user.selectedRole !== 'Admin' && user.selectedRole !=='SuperAdmin'" (click)="editProfile()">{{user.selectedRole}}</button>
+							<button mat-icon-button (click)="mail()" title="Mail">
+								<mat-icon>email</mat-icon>
+							</button>
+							<button mat-icon-button (click)="logOut()" title="Logout">
+								<mat-icon>power_settings_new</mat-icon>
+							</button>
+						</td>
+					</tr>
+				</table>
+			</mat-toolbar>
+		</div>
+		<div class="sidenav-body" *ngIf="user.selectedRole === 'Admin'">
+			<admin-dashboard *ngIf="selectedApp.id === 1"></admin-dashboard>
+			<students *ngIf="selectedApp.id === 2"></students>
+			<app-section *ngIf="selectedApp.id === 20"></app-section>
+			<professors *ngIf="selectedApp.id === 3"></professors>
+			<librarian *ngIf="selectedApp.id === 4"></librarian>
+			<!-- <admin-attendance *ngIf="selectedApp.id === 5"></admin-attendance> -->
+			<attandance *ngIf="selectedApp.id === 5"></attandance>
+			<employee *ngIf="selectedApp.id === 11"></employee>
+			<results *ngIf="selectedApp.id === 6"></results>
+			<feedback *ngIf="selectedApp.id === 7"></feedback>
+			<staff *ngIf="selectedApp.id === 12"></staff>
+			<departments *ngIf="selectedApp.id === 8"></departments>
+			<courses *ngIf="selectedApp.id === 10"></courses>
+			<subjects *ngIf="selectedApp.id === 9"></subjects>
+			<email *ngIf="selectedApp.id === 0"></email>
+			<holidays *ngIf="selectedApp.id === 13"></holidays>
+			<accountants *ngIf="selectedApp.id === 14"></accountants>
+			<app-transport *ngIf="selectedApp.id === 18"></app-transport>
+			<app-hostel *ngIf="selectedApp.id === 19"></app-hostel>
+			<!-- <app-examination *ngIf="selectedApp.id === 21"></app-examination> -->
+			<app-infrastructure *ngIf="selectedApp.id === 22"></app-infrastructure>
+			<lessons *ngIf="selectedApp.id === 15"></lessons>
+			<topics *ngIf="selectedApp.id === 17"></topics>
+			<app-canteen *ngIf="selectedApp.id === 23"></app-canteen>
+			<id-card *ngIf="selectedApp.id === 16"></id-card>
+		</div>
+		<div class="sidenav-body" *ngIf="user.selectedRole === 'Library'">
+			<library *ngIf="selectedApp.id === 1"></library>
+			<due-books *ngIf="selectedApp.id === 2"></due-books>
+			<lend-books *ngIf="selectedApp.id === 3"></lend-books>
+			<return-books *ngIf="selectedApp.id === 4"></return-books>
+			<email *ngIf="selectedApp.id === 0"></email>
+		</div>
+		<div class="sidenav-body" *ngIf="user.selectedRole === 'Student'">
+			<student-dashboard *ngIf="selectedApp.id === 1"></student-dashboard>
+			<professor-academics *ngIf="selectedApp.id === 2"></professor-academics>
+			<student-attendance *ngIf="selectedApp.id === 3"></student-attendance>
+			<student-results *ngIf="selectedApp.id === 8"></student-results>
+			<calendar-widget *ngIf="selectedApp.id === 4"></calendar-widget>
+			<library *ngIf="selectedApp.id === 5"></library>
+			<live-tracking *ngIf="selectedApp.id === 9"></live-tracking>
+			<fee-payment *ngIf="selectedApp.id === 6"></fee-payment>
+			<maintain-feedback *ngIf="selectedApp.id === 7"></maintain-feedback>
+			<email *ngIf="selectedApp.id === 0"></email>
+		</div>
+		<div class="sidenav-body" *ngIf="user.selectedRole === 'Parent'">
+			<parent-dashboard *ngIf="selectedApp.id === 1"></parent-dashboard>
+			<student-attendance *ngIf="selectedApp.id === 2"></student-attendance>
+			<fee-payment *ngIf="selectedApp.id === 4"></fee-payment>
+			<parent-results *ngIf="selectedApp.id === 3"></parent-results>
+			<email *ngIf="selectedApp.id === 0"></email>
+			<live-tracking *ngIf="selectedApp.id === 5"></live-tracking>
+		</div>
+		<div class="sidenav-body" *ngIf="user.selectedRole === 'Hostel'">
+			<hostels *ngIf="selectedApp.id === 1"></hostels>
+			<allocation *ngIf="selectedApp.id === 2"></allocation>
+			<outing-pass *ngIf="selectedApp.id === 3"></outing-pass>
+			<email *ngIf="selectedApp.id === 0"></email>
+		</div>
+		<div class="sidenav-body" *ngIf="user.selectedRole === 'Transport'">
+			<buses *ngIf="selectedApp.id === 1"></buses>
+			<drivers *ngIf="selectedApp.id === 2"></drivers>
+			<bus-details *ngIf="selectedApp.id === 3"></bus-details>
+			<stops *ngIf="selectedApp.id === 4"></stops>
+			<management *ngIf="selectedApp.id === 5"></management>
+			<bus-allocations *ngIf="selectedApp.id === 6"></bus-allocations>
+			<expenses *ngIf="selectedApp.id === 7"></expenses>
+			<add-bus-track *ngIf="selectedApp.id === 8"></add-bus-track>
+			<email *ngIf="selectedApp.id === 0"></email>
+		</div>
+		<div class="sidenav-body" *ngIf="user.selectedRole === 'Accounts'">
+			<school-expenses *ngIf="selectedApp.id === 1"></school-expenses>
+			<store-expenses *ngIf="selectedApp.id === 2"></store-expenses>
+			<student-fees *ngIf="selectedApp.id === 3"></student-fees>
+			<employee-salaries *ngIf="selectedApp.id === 4"></employee-salaries>
+			<condonation *ngIf="selectedApp.id === 6"></condonation>
+			<app-infrastructures *ngIf="selectedApp.id === 10"></app-infrastructures>
+			<app-other-expenses *ngIf="selectedApp.id === 11"></app-other-expenses>
+			<email *ngIf="selectedApp.id === 0"></email>
+		</div>
+		<div class="sidenav-body" *ngIf="user.selectedRole === 'Professor' || user.selectedRole === 'HOD'">
+			<professor-dashboard *ngIf="selectedApp.id === 1"></professor-dashboard>
+			<professor-academics *ngIf="selectedApp.id === 2"></professor-academics>
+			<professor-attendance *ngIf="selectedApp.id === 3"></professor-attendance>
+			<student-feedback *ngIf="selectedApp.id === 7"></student-feedback>
+			<professor-results *ngIf="selectedApp.id === 4"></professor-results>
+			<professor-exams *ngIf="selectedApp.id === 5"></professor-exams>
+			<library *ngIf="selectedApp.id === 6"></library>
+			<email *ngIf="selectedApp.id === 0"></email>
+		</div>
+		<div class="sidenav-body" *ngIf="user.selectedRole === 'Canteen'">
+			<menu *ngIf="selectedApp.id === 1"></menu>
+			<canteen-feedback *ngIf="selectedApp.id === 2"></canteen-feedback>
+			<canteen-expenses *ngIf="selectedApp.id === 3"></canteen-expenses>
+			<sales-report *ngIf="selectedApp.id === 4"></sales-report>
+			<cancel-order *ngIf="selectedApp.id === 5"></cancel-order>
+			<canteen-orders *ngIf="selectedApp.id === 6"></canteen-orders>
+			<email *ngIf="selectedApp.id === 0"></email>
+		</div>
+		<div class="sidenav-body" *ngIf="user.selectedRole === 'SuperAdmin'">
+			<super-admin-dashboard *ngIf="selectedApp.id === 4"></super-admin-dashboard>
+			<schools *ngIf="selectedApp.id === 1"></schools>
+			<colleges *ngIf="selectedApp.id === 2"></colleges>
+			<directors *ngIf="selectedApp.id === 3"></directors>
+			<email *ngIf="selectedApp.id === 0"></email>
+		</div>
+		<div class="sidenav-footer">
+			Copyrights and reserved by "Universal security systems pvt limited".
+			<!-- , developed by "FIUH IT SOLUTIONS PVT LTD -->
+		</div>
+	</div>
+	<div class="nav-list">
+		<applications-list (onselect)="onAppSelect($event)" [applications]="appList"></applications-list>
+	</div>
+</div>

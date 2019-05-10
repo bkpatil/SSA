@@ -1,0 +1,38 @@
+<form *ngIf="!data.details" class="popup-form">
+  <div class="row popup-header">{{data.name}}</div>
+  <div *ngIf="!data.readOnly">
+    <add-form [fields]='data.fields' [(newRecord)]='data.data' [button]="data.button" (onAdd)="addDetail($event)" (onCancel)="closePopup()"></add-form>
+  </div>
+  <div *ngIf="data.readOnly">
+    <add-form [fields]='data.fields' [(newRecord)]='data.data' [button]="data.button" [editable]="data.readOnly" (onAdd)="addDetail($event)"
+      (onCancel)="closePopup()"></add-form>
+  </div>
+</form>
+<form class="popup-form" *ngIf="data.details">
+  <div class="row popup-header">{{data.name}}</div>
+  <table *ngIf="user.selectedRole !== 'Student' && user.selectedRole !== 'Parent'">
+    <tr>
+      <td rowspan="7">
+        <!-- <img src="assets/images/{{data.data['S.ID'] | lowercase}}.png" /> -->
+        <img src="assets/images/1.png" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <table>
+              <tr *ngFor="let details of data.fields">
+                <td  *ngIf="details.field !== 'Photo'">{{details.label}} : </td>
+                <td>{{data.data[details.field]}}</td>
+              </tr>
+            </table>
+        </td>
+    </tr>
+  </table>
+  <data-grid [(data)]="data.gridData" [fields]='data.gridFields' [selectedApp]='dataService.selectedApp.name' *ngIf='true'></data-grid>
+  <!-- <div *ngIf="!data.readOnly">
+    <add-form [fields]='data.fields' [(newRecord)]='data.data' [button]="data.button" (onAdd)="addDetail($event)" (onCancel)="closePopup()"></add-form>
+  </div>
+  <div *ngIf="data.readOnly">
+    <add-form [fields]='data.fields' [(newRecord)]='data.data' [button]="data.button" [editable]="data.readOnly" (onAdd)="addDetail($event)" (onCancel)="closePopup()"></add-form>
+  </div> -->
+</form>

@@ -1,0 +1,34 @@
+<div class="container students-view">
+    <span class="selected-app-name">{{user.selectedApp.name}}</span> 
+    <span class="row go-icon" *ngIf="frontVisible">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <table>
+              <tr>
+                <td>
+                  <button mat-raised-button type="submit"><mat-icon>file_upload</mat-icon>Add Staff List</button>
+                </td>
+                <td>
+                  <input #fileInput type="file" name="file" (change)="onFileChange($event)" />
+                </td>
+              </tr>
+            </table>
+        </form>
+      <span (click)="flip()">
+        <button mat-button color="primary"><mat-icon>add</mat-icon>Add Staff</button>
+      </span>
+      
+    </span> 
+    <span class="row go-icon" *ngIf="!frontVisible">
+      <span (click)="flip()">
+        <button mat-button color="primary">View Staff</button>
+      </span>
+    </span> 
+    <div class="card" [style.width.px]="data.width" [style.height.px]="data.height">
+      <div class="front" *ngIf="frontVisible">
+        <data-grid [(data)]="data" [fields]='fields'(ondelete)="onDelete($event)" [selectedApp]='dataService.selectedApp.name' *ngIf='callGrid'></data-grid>
+      </div>
+      <div class="back" *ngIf="!frontVisible">
+        <add-form [fields]='fields' [(newRecord)]='newRecord' (onAdd)="addNewStudent($event)"></add-form>
+      </div>
+    </div>
+  </div>

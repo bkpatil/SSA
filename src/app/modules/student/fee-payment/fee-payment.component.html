@@ -1,0 +1,82 @@
+<div class="container students-view">
+  <span class="selected-app-name">Fee Payment Details</span>
+
+
+  <div class="card" [style.max-height.px]="height" [style.min-height.px]="height">
+    <table *ngIf="showDetails" class="full-width" style="margin-left: 50px;margin-top:20px">
+      <tr>
+        <td style="width:150px;font-weight:bolder">Student Id</td>
+        <td>{{feeDetails.studentId}}</td>
+      </tr>
+      <tr>
+        <td style="width:150px;font-weight:bolder">Student Name</td>
+        <td>{{feeDetails.firstName}} {{feeDetails.lastName}}</td>
+      </tr>
+      <tr>
+        <td style="width:150px;font-weight:bolder">Department</td>
+        <td>{{feeDetails.department}}</td>
+      </tr>
+      <tr>
+        <td style="width:150px;font-weight:bolder">Course</td>
+        <td>{{feeDetails.course}}</td>
+      </tr>
+      <tr>
+        <td style="width:150px;font-weight:bolder">Semester</td>
+        <td>{{feeDetails.semester}}</td>
+      </tr>
+      <tr>
+        <td style="width:150px;font-weight:bolder">SchloarShip Type</td>
+        <td>{{feeDetails.schloarShipType}}</td>
+      </tr>
+      <tr>
+        <td style="width:150px;font-weight:bolder">SchloarShip Amount</td>
+        <td>{{feeDetails.schloarShipAmount===null? 'NA' : feeDetails.schloarShipAmount}}</td>
+      </tr>
+      <tr>
+        <td style="width:150px;font-weight:bolder">Fee Selection</td>
+        <td>
+          <select [(ngModel)]='details.feeSelection' style="width:200px" class="form-control">
+            <option [value]="bus">
+              Bus
+            </option>
+            <option [value]="college">
+              College
+            </option>
+            <option [value]="hostel">
+              Hostel
+            </option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td style="width:150px;font-weight:bolder">Total Fee</td>
+        <td>{{feeDetails.totalFees}}</td>
+      </tr>
+      <tr>
+        <td style="width:150px;font-weight:bolder">Paid Payment</td>
+        <td>{{feeDetails.amountPaid}}</td>
+      </tr>
+      <tr>
+        <td style="width:150px;font-weight:bolder">Pending Payment</td>
+        <td>{{feeDetails.totalFees - feeDetails.amountPaid}}</td>
+      </tr>
+      <tr>
+        <td style="width:150px;font-weight:bolder">Enter Amount</td>
+        <td>
+          <input type="number" class="form-control" placeholder="Amount" [(ngModel)]='details.amount' style="width:200px">
+        </td>
+      </tr>
+      <tr>
+        <td colspan='2' style="padding-left:20px">
+          <br/>
+          <br/>
+          <button mat-raised-button color="primary">Make Payment</button>
+          <button mat-raised-button color="default" (click)="details.amount = 0">Clear</button>
+        </td>
+      </tr>
+    </table>
+    <div *ngIf="!showDetails">
+      <h1 style="text-align:center;margin-top:20px">No Data to display</h1>
+    </div>
+  </div>
+</div>

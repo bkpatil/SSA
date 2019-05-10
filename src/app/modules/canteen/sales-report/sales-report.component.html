@@ -1,0 +1,52 @@
+<div class="container students-view">
+  <span class="selected-app-name" *ngIf="frontVisible">{{user.selectedApp.name}}</span>
+  <span class="selected-app-name" *ngIf="!frontVisible">Item wise Sales Report</span>
+  <span class="row go-icon" *ngIf="frontVisible">
+    <span (click)="flip()">
+      <button mat-button color="primary">Item wise sales report</button>
+    </span>
+  </span>
+  <span class="row go-icon" *ngIf="!frontVisible">
+    <span (click)="flip()">
+      <button mat-button color="primary">Sales Report</button>
+    </span>
+  </span>
+  <span style="font-size: 14px;">
+    <input type="date" [(ngModel)]="startDate" placeholder="start date" />
+    <input type="date" [(ngModel)]="endDate" placeholder="end date" />
+    <mat-select style="width:150px;font-size: 14px;margin-left:10px" [(ngModel)]="paymentMode" *ngIf="frontVisible">
+        <mat-option value='select'>payment Mode</mat-option>
+        <mat-option value='card'>Card</mat-option>
+        <mat-option value='cash'>Cash</mat-option>
+      </mat-select>
+    <span (click)="getData()">
+      <button mat-raised-button color="primary" style="margin-bottom: 5px;">
+        <mat-icon>search</mat-icon>Search</button>
+    </span>
+  </span>
+  <div class="card" [style.width.px]="data.width" [style.height.px]="data.height">
+    <div class="front" *ngIf="frontVisible">
+      <data-grid [(data)]="data" [fields]='fields' [selectedApp]='dataService.selectedApp.name' (ondelete)="onDelete($event)" *ngIf='callGrid'></data-grid>
+    </div>
+    <div class="back dashboard-wrapper" *ngIf="!frontVisible">
+      <mat-grid-list cols="4" rowHeight="{{tile.rowHeight}}" gutterSize="15px">
+        <mat-grid-tile [colspan]="2" [rowspan]="1" [style.background]="tile.color">
+          <data-grid [(data)]="starters" [fields]='starters.fields' [selectedApp]='dataService.selectedApp.name' (ondelete)="onDelete($event)"
+            *ngIf='callGrid'></data-grid>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="2" [rowspan]="1" [style.background]="tile.color">
+          <data-grid [(data)]="mainCourse" [fields]='mainCourse.fields' [selectedApp]='dataService.selectedApp.name' (ondelete)="onDelete($event)"
+            *ngIf='callGrid'></data-grid>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="2" [rowspan]="1" [style.background]="tile.color">
+          <data-grid [(data)]="desserts" [fields]='desserts.fields' [selectedApp]='dataService.selectedApp.name' (ondelete)="onDelete($event)"
+            *ngIf='callGrid'></data-grid>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="2" [rowspan]="1" [style.background]="tile.color">
+          <data-grid [(data)]="beverages" [fields]='beverages.fields' [selectedApp]='dataService.selectedApp.name' (ondelete)="onDelete($event)"
+            *ngIf='callGrid'></data-grid>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </div>
+</div>

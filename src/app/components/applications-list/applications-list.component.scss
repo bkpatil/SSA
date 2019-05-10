@@ -1,0 +1,106 @@
+.logo {
+    font-size: 56px;
+    padding: 10px;
+    font-family: fantasy;
+}
+
+.mat-icon{
+    background-repeat: no-repeat;
+    display: inline-block;
+    fill: currentColor;
+    height: 40px;
+    width: 40px;
+    font-size: 40px;
+    padding: 10px;
+    color: #3f51b5;
+    cursor: pointer;
+}
+
+.mat-icon:hover{
+   //height: 50px;
+    //width: 50px;
+    font-size: 50px;
+}
+
+.mail-count{
+    background-color: #3f51b5;
+    font-weight: bold;
+    margin-right:35px;
+    float:right;
+    color:white;
+    padding: 1px 15px;
+    border-radius: 4px;
+    margin-top: 5px;
+}
+.profile-wrapper{
+    width:100%;
+    margin: 0 auto;
+    height: 58px;
+}
+.profile-wrapper .user-logo{
+    padding-top:2px;
+    width: 30%;
+    float: left;
+}
+
+.profile-wrapper .user-name{
+    width: 70%;
+    margin-left: 30%;
+    font-weight:bold; 
+    height: 58px;
+    padding-top: 15px;
+    font-size: 18px;
+    color: #3f51b5;
+}
+.profile-wrapper img{
+    height:50px;
+    width: 50px;
+    border-radius: 50px;
+    border: 1px solid black;
+}
+
+.mail-list-wrapper .mat-icon {
+    margin-left:20px;
+}
+.no-padding{
+    padding:0px!important;
+}
+
+.sidebar-item.mat-list-item {
+    cursor: pointer;
+    &:hover,
+    &.active {
+        background: gray;
+        color: white;
+    }
+}
+
+.app-list-icon{
+    font-size: 40px;
+    display: inline;
+    color: #3F51B5;
+    //padding: 0 10px;
+    margin: 0 15px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-family: serif;
+    img{
+        width: 5rem;
+        height:5rem;
+        border-radius:5rem;
+        border: 1px solid #E0E0E0;
+        &:hover{
+            //font-weight: bolder;
+            //background: #eee;
+            //font-size: 43px;
+            border: 1px solid gray;
+            border-radius:5.5rem;
+         }
+    }
+    
+}
+
+.list-wrapper { 
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    background: #fff;
+}

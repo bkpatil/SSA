@@ -1,0 +1,84 @@
+.mat-grid-tile {
+    border: 1px solid #ccc !important;
+}
+
+.example-small-box,
+.example-large-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 16px;
+    padding: 16px;
+    border-radius: 8px;
+}
+
+.example-small-box {
+    height: 100px;
+    width: 100px;
+}
+
+.example-large-box {
+    height: 300px;
+    width: 300px;
+}
+
+.academics .mat-grid-tile .mat-figure {
+    align-items: initial !important;
+    justify-content: left !important;
+}
+
+.academics .mat-list-item .mat-list-item-content {
+    padding: 0 !important;
+}
+
+.mat-tab-body-wrapper {
+    padding: 10px;
+}
+
+.full-width td {
+    vertical-align: top;
+    padding: 10px;
+}
+
+.newNotification {
+    height: 30px;
+    position: absolute;
+    right: 0;
+}
+
+.newNotification button {
+    font-size: 12px;
+}
+
+.addForm {
+    border: 1px solid gray;
+}
+
+.academics .mat-tab-body-wrapper {
+    border: 1px solid gray;
+    border-top: 0;
+}
+
+.form-wrapper {
+    padding: 10px;
+}
+
+.buttons-row {
+    text-align: center;
+}
+
+.input-file input[type=file] {
+    display: none;
+}
+
+.input-file {
+    background: red;
+}
+
+.input-image {
+    min-width: 180px;
+    max-width: 180px;
+    button {
+        width: 180px;
+    }
+}

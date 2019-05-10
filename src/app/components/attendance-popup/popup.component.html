@@ -1,0 +1,65 @@
+<form class="popup-form">
+  <div class="row popup-header">{{data.title ? data.title : 'Student Attendance'}}</div>
+  <h3 *ngIf="emptyData">No Data To Display</h3>
+  <!-- <h3 *ngIf='emptyData !== true'>
+    <table style="width:100%">
+      <tr>
+        <td>
+          <b>Student Id</b>
+        </td>
+        <td>{{data.studentId}}</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Present Count</b>
+        </td>
+        <td>{{data.data.presentCount[data.studentId]}}</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Absent Count</b>
+        </td>
+        <td>{{data.data.absentCount[data.studentId]}}</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Total Present Percentage</b>
+        </td>
+        <td>{{data.data.totalPresentPercentage}}</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Total Absent Percentage</b>
+        </td>
+        <td>{{data.data.totalAbsentPercentage}}</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Year</b>
+        </td>
+        <td>{{data.data.year}}</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Semester</b>
+        </td>
+        <td>{{data.data.semester}}</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Current Year</b>
+        </td>
+        <td>{{data.data.currentYear}}</td>
+      </tr>
+
+    </table>
+  </h3>  -->
+  <br/>
+  <h3 *ngIf="data.studentId">
+    <b>Student Id: </b>
+    {{data.studentId}}
+    <b>TotalAbsentPercentage:</b> {{data.totalAbsentPercentage}}%
+    <b>totalPresentPercentage:</b> {{data.totalPresentPercentage}}%</h3>
+  <!-- <student-attendance fromAdmin="true" value="{{data.studentId}}" *ngIf="!data.callGrid"></student-attendance> -->
+  <data-grid *ngIf="data.callGrid && !emptyData" [(data)]="data" [fields]='data.fields' [selectedApp]='data.studentId' (ondelete)="onDelete($event)"></data-grid>
+</form>

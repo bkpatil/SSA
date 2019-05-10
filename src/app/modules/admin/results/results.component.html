@@ -1,0 +1,23 @@
+<div class="container students-view">
+  <span class="selected-app-name">{{user.selectedApp.name}}</span> 
+  <span class="row go-icon" *ngIf="!frontVisible">
+    <span (click)="flip()">
+      <button mat-button color="primary">View Results Type</button>
+    </span>
+  </span> 
+  <div class="card results" [style.width.px]="data.width" [style.height.px]="data.height">
+    <div class="front" *ngIf="frontVisible" style="text-align: center;">
+        <h1 class="cursor-pointer" (click)="displayResults('internal')">
+            Internal Test Results
+          </h1>
+          <h1></h1>
+          <h1 class="cursor-pointer" (click)="displayResults('external')">
+            External Test Results
+          </h1>
+    </div>
+    <div class="back" *ngIf="!frontVisible">
+        <add-form [fields]='searchFields' [(newRecord)]='newRecord' [button]="button" (onAdd)="onSearch($event)"></add-form>
+        <data-grid [(data)]="data" (ondelete)="onDelete($event)" [fields]='fields' [selectedApp]='dataService.selectedApp.name' *ngIf='callGrid'></data-grid>
+    </div>
+  </div>
+</div>

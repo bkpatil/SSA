@@ -1,0 +1,83 @@
+<div class="form-wrapper">
+  <form name="form" #ssa="ngForm" (ngSubmit)="onSubmit()">
+  <span *ngFor="let field of fields">
+    <mat-form-field *ngIf="field.element==='input' && !field.hide">
+      <input matInput placeholder="{{field.label}}" [(ngModel)]='newRecord[field.field]' name="input" #input="ngModel" required>
+      <mat-error *ngIf="input.invalid">This field is required.</mat-error>
+    </mat-form-field>
+    <mat-form-field *ngIf="field.element==='number'" class="input-image">
+      <input type="number" matInput placeholder="{{field.label}}" onkeyup="newRecord[field.field]=newRecord[field.field].replace(/[^\d]/,'')"
+        [(ngModel)]='newRecord[field.field]' name="number" #number="ngModel" required>
+      <mat-error *ngIf="number.invalid">This field is required.</mat-error>
+    </mat-form-field>
+    <mat-form-field *ngIf="field.element==='email'" class="input-image">
+      <input type="email" matInput placeholder="{{field.label}}" onkeyup="newRecord[field.field]=newRecord[field.field].replace(/[^\d]/,'')"
+          [(ngModel)]='newRecord[field.field]' name="email" #email="ngModel" email required>
+          <mat-error *ngIf="email.invalid">This field is required.
+            <mat-error *ngIf="email.errors.email">Invalid email</mat-error>
+          </mat-error>
+    </mat-form-field>
+    <span *ngIf="field.element==='image' && !field.hide" class="input-image">
+      <button mat-raised-button (click)="fileInputs.click()">
+        <mat-icon>add_a_photo</mat-icon>
+        <span>{{field.label}}</span>
+        <input #fileInputs type="file" (change)="onImageInput($event,field)" accept="image/*" placeholder="{{field.field}}" [(ngModel)]='newRecord[field.field]'
+          style="display:none;">
+      </button>
+    </span>
+    <span *ngIf="field.element==='fileUpload'">
+      <button mat-raised-button (click)="fileInput.click()">
+        <mat-icon>file_upload</mat-icon>
+        <span>{{field.label}}</span>
+        <input #fileInput type="file" (change)="onFileInput($event,field)" placeholder="{{field.field}}" [(ngModel)]='newRecord[field.field]'
+          style="display:none;">
+      </button>
+    </span>
+    <!-- <span *ngIf="field.element==='fileUpload' && newRecord[field.field]">
+        <button mat-raised-button>
+          <mat-icon>file_upload</mat-icon>
+          <span>{{newRecord[field.field]}}</span>
+        </button>
+      </span> -->
+    
+    <mat-form-field *ngIf="field.element==='dropdown' && !field.multiple && !field.hide">
+      <mat-select placeholder="{{field.label}}" [(ngModel)]='newRecord[field.field]' [(value)]='newRecord[field.field]' name="dropdown" #dropdown="ngModel" required>
+        <mat-option *ngFor="let value of field.values" [value]="value.examName || value.subjectName || value.staffId || value[field.field] ||value.name || value.id|| value">
+          {{ value.examName || value.value || value.subjectName || value.staffId || value[field.field] || value.name || value.id || value}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="dropdown.invalid">This field is required.</mat-error>
+    </mat-form-field>
+    <mat-form-field *ngIf="field.element==='dropdown' && field.multiple">
+      <mat-select placeholder="{{field.label}}" [(ngModel)]="newRecord[field.field]" [(value)]='newRecord[field.field]' multiple name="dropdown" #dropdown="ngModel" required>
+        <mat-option *ngFor="let value of field.values" [value]="value.subjectName || value.staffId || value[field.field] ||value.name || value.id|| value">
+          {{ value.value || value.subjectName || value.staffId || value[field.field] ||value.name || value.id|| value}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="dropdown.invalid">This field is required.</mat-error>
+    </mat-form-field>
+    <mat-form-field *ngIf="field.element==='valuehelp'">
+      <mat-select (click)="listValues = getValues(field)" placeholder="{{field.label}}" [(value)]='newRecord[field.field]'>
+        <mat-option *ngFor="let value of listValues" [value]="value.id">
+          {{ value[field.field] || value.name || value.id}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="field.element==='date'">
+      <input matInput [matDatepicker]="picker" [(ngModel)]='newRecord[field.field]' placeholder="{{field.label}}">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </span>
+  <br/>
+  <div class="buttons-row">
+    <button color="primary" type="submit" mat-raised-button [disabled]="ssa.invalid">
+      <mat-icon>add_circle</mat-icon> {{ button || 'Add'}}
+    </button>
+    <button mat-raised-button color="warn" (click)="cancel()">
+      <mat-icon>cancel</mat-icon> Cancel
+    </button>
+  </div>
+  </form>
+</div>

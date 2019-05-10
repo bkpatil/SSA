@@ -1,0 +1,82 @@
+<div class="container students-view">
+  <span class="selected-app-name">{{user.selectedApp.name}}</span>
+  <span style="margin-left:20px;    font-size: 14px;">
+    <b>Search By</b>
+  </span>
+  <select style="width:200px;    font-size: 14px;" [(ngModel)]="search" (change)="searchBy(search)">
+    <!-- <option value='all'>All</option> -->
+    <option value='date'>Subject By Date Period</option>
+    <!-- <option value='month'>Month</option> -->
+    <option value='subject'>Subject By Date</option>
+    <option value='gate'>Gate By Date</option>
+    <option value='inOut'>In And Out Time</option>
+  </select>
+
+  <select style="width:200px;    font-size: 14px;" *ngIf="showMonth" [(ngModel)]="month" (change)="searchByMonth(month)">
+    <option value='{{month.id}}' *ngFor="let month of months">{{month.name}}</option>
+  </select>
+
+  <span *ngIf="showSubject">
+    <select style="width:200px;    font-size: 14px;" [(ngModel)]="subject">
+      <option value='{{subject.subjectName}}' *ngFor="let subject of dataService.subjects">{{subject.subjectName}}</option>
+    </select>
+    <input type="date" [(ngModel)]="startDate" placeholder="Date" />
+    <span (click)="searchBySubject()" style="margin-bottom: 5px;">
+      <button mat-raised-button color="primary" style="margin-bottom: 5px;">
+        <mat-icon>search</mat-icon>Search</button>
+    </span>
+  </span>
+
+
+  <span *ngIf="showDate" style="font-size: 14px;">
+    <select style="width:200px;font-size: 14px;" [(ngModel)]="subject">
+      <option value='{{subject.subjectName}}' *ngFor="let subject of dataService.subjects">{{subject.subjectName}}</option>
+    </select>
+    <input type="date" [(ngModel)]="startDate" placeholder="start date" />
+    <input type="date" [(ngModel)]="endDate" placeholder="end date" />
+    <span (click)="searchByDate()">
+      <button mat-raised-button color="primary" style="margin-bottom: 5px;">
+        <mat-icon>search</mat-icon>Search</button>
+    </span>
+  </span>
+
+  <span *ngIf="inOutTime" style="font-size: 14px;">
+    <input type="date" [(ngModel)]="startDate" placeholder="Date" />
+    <input type="date" [(ngModel)]="endDate" placeholder="Date" />
+    <span (click)="searchByInOut()" style="margin-bottom: 5px;">
+      <button mat-raised-button color="primary" style="margin-bottom: 5px;">
+        <mat-icon>search</mat-icon>Search</button>
+    </span>
+  </span>
+  <span *ngIf="gate" style="font-size: 14px;">
+    <input type="date" [(ngModel)]="startDate" placeholder="Date" />
+    <span (click)="searchByInOutByGate()" style="margin-bottom: 5px;">
+      <button mat-raised-button color="primary" style="margin-bottom: 5px;">
+        <mat-icon>search</mat-icon>Search</button>
+    </span>
+  </span>
+
+  <!-- <table class="full-width" style="margin:10px" *ngIf="details">
+    <tr>
+      <td style="width:60px">
+        <b>StudentId : </b>
+      </td>
+      <td style="width:250px">
+        {{dataService.user.userName}}
+        <td>
+          <b>Semester: </b> {{searchDetails.semester=== null ? 'null' :searchDetails.semester}}</td>
+        <td>
+          <b>Year: </b> {{searchDetails.year=== null ? 'null' :searchDetails.year}}</td>
+        <td>
+          <b>Present: </b> {{searchDetails.presentCount[searchDetails.studentId]}}</td>
+        <td>
+          <b>Absent: </b> {{searchDetails.absentCount[searchDetails.studentId]}}</td>
+
+    </tr>
+  </table> -->
+  <div class="card" [style.width.px]="data.width" [style.height.px]="data.height">
+    <div class="front" *ngIf="frontVisible">
+      <data-grid [(data)]="data" [fields]='fields' (ondelete)="onDelete($event)" [selectedApp]='dataService.selectedApp.name' *ngIf='callGrid'></data-grid>
+    </div>
+  </div>
+</div>

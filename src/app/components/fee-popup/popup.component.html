@@ -1,0 +1,89 @@
+<style>
+  table tr td{
+    padding: 7px
+  }
+</style>
+<form class="popup-form" *ngIf="!data.edit" style='width: 100%; padding: 15px'>
+  <h2>
+  <table style='width: 100%;'>
+    <tr>
+      <td>
+        <b>Student Id:</b>
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>
+        <b>Student Name:</b>
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>
+        <b>Year Period:</b>
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>
+        <b>Select Fee:</b>
+      </td>
+      <td>
+        <mat-select placeholder="select" [(ngModel)]='feeType' [(value)]='feeType' [ngModelOptions]="{standalone: true}">
+          <mat-option [value]="1">Collage</mat-option>
+          <mat-option [value]="2">Transport</mat-option>
+          <mat-option [value]="3">Hostel</mat-option>
+        </mat-select>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <b>Total Fee:</b>
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>
+        <b>Pending Amount:</b>
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>
+        <b>Pay Mode:</b>
+      </td>
+      <td>
+        <mat-select placeholder="select" [(ngModel)]='payMode' [(value)]='payMode' [ngModelOptions]="{standalone: true}">
+          <mat-option [value]="1">Cash</mat-option>
+          <mat-option [value]="2">Card</mat-option>
+        </mat-select>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <b>Transaction Id: </b>
+      </td>
+      <td>
+        <input type="text" class="form-control" [(ngModel)]='transactionId' [ngModelOptions]="{standalone: true}" />
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <b>Amount: </b>
+      </td>
+      <td>
+        <input type="text" class="form-control" [(ngModel)]='amount' [ngModelOptions]="{standalone: true}" />
+      </td>
+    </tr>
+    <tr style="text-align: center;">
+      <td colspan="2">
+        <button mat-raised-button color="primary" (click)="submitPayment()">PAY</button>
+        <button mat-raised-button color="warn" (click)="clearPayment()">CLEAR</button>
+      </td>
+    </tr>
+  </table>
+</h2>
+  <!-- <div style="margin-left:30%">
+    <h2>No Data To Display</h2>
+  </div> -->
+</form>

@@ -1,0 +1,260 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import '~@angular/material/prebuilt-themes/pink-bluegrey.css';
+@import 'theme.scss';
+html,
+body {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    data-grid {
+        display: block;
+    }
+    .flex-div {
+        display: -webkit-box;
+        /* OLD - iOS 6-, Safari 3.1-6 */
+        display: -moz-box;
+        /* OLD - Firefox 19- (buggy but mostly works) */
+        display: -ms-flexbox;
+        /* TWEENER - IE 10 */
+        display: -webkit-flex;
+        /* NEW - Chrome */
+        display: flex;
+        /* NEW, Spec - Opera 12.1, Firefox 20+ */
+    }
+    .flex-one {
+        -webkit-box-flex: 1;
+        /* OLD - iOS 6-, Safari 3.1-6 */
+        -moz-box-flex: 1;
+        /* OLD - Firefox 19- */
+        -webkit-flex: 1;
+        /* Chrome */
+        -ms-flex: 1;
+        /* IE 10 */
+        flex: 1;
+        /* NEW, Spec - Opera 12.1, Firefox 20+ */
+    }
+    // body.light-theme .mat-toolbar.mat-primary{
+    //     background: #5767c3!important;
+    // }
+
+    .selected-app-name{
+        font-weight: bold;
+        font-size:20px;
+        padding-left: 20px;
+        color:#3f51b5;
+        padding-top: 10px;
+    }
+    .title-row{
+        height: 30px;
+        padding-top: 10px;
+    }
+    .selected-role{
+        font-weight: bold;
+        font-size:18px;
+        padding-left: 20px;
+        padding-top: 10px;  
+    }
+
+    .mat-form-field-infix{
+        font-size: 14px;
+    }
+
+    .section-wrapper{
+        padding-top: 10px;
+    }
+
+    .nav-list{
+        position: fixed;
+        bottom: 0px;
+       // border: 1px solid rgba(0, 0, 0, 0.12);
+        width: 100%;
+        height: 65px;
+        overflow: auto;
+        text-align: center;
+    }
+
+
+}
+//scrollbar styles
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background:grey; 
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: black; 
+}
+
+.raphael-group-3-creditgroup tspan, 
+.raphael-group-13-creditgroup tspan,
+.raphael-group-18-creditgroup tspan,
+.raphael-group-104-creditgroup tspan,
+.raphael-group-377-creditgroup tspan,
+.raphael-group-8-creditgroup tspan{
+    display: none;
+}
+
+.academics .mat-grid-tile .mat-figure{
+    align-items: initial !important;
+    justify-content: left !important;
+  }
+
+.container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    -webkit-perspective: 800px;
+    -moz-perspective: 800px;
+    -o-perspective: 800px;
+    perspective: 800px;
+}
+.card {
+    height: 100%;
+    width: 100%;
+    //padding-top: 20px;
+    position: absolute;
+    -webkit-transition: -webkit-transform 1s;
+    -moz-transition: -moz-transform 1s;
+    -o-transition: -o-transform 1s;
+    transition: transform 1s;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-transform-origin: 50% 50%;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    // margin-left: 10px;
+    // margin-top: 10px;
+    // margin-right: 10px;
+}
+.card.back, .card.front {
+    display: block;
+    height: 100%;
+    width: 100%;
+    color: white;
+    // text-align: center;
+    font-weight: bold;
+    position: absolute;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -o-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+.card .front {
+//   background: red;
+  height:100%;
+  //padding-left: 60px;
+}
+.card .back {
+    // background: blue;
+    height: 100%;
+    -webkit-transform: rotateY( 180deg );
+    -moz-transform: rotateY( 180deg );
+    -o-transform: rotateY( 180deg );
+    transform: rotateY( 180deg );
+}
+.card.flipped {
+    -webkit-transform: rotateY( 180deg );
+    -moz-transform: rotateY( 180deg );
+    -o-transform: rotateY( 180deg );
+    transform: rotateY( 180deg );
+}
+
+.go-icon{
+    position: absolute;
+    right: 0;
+    bottom: 3px;
+}
+
+.ellipsis{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}
+.mat-header-row {
+    // position: sticky;
+    // position: -webkit-sticky;
+    // top: 0;
+    // background-color: inherit;
+    position: fixed;
+    top: 50px;
+    width: 100%;
+    background-color: inherit;
+}
+.dashboard-wrapper .mat-header-row,.popup-form .mat-header-row {
+    position: sticky !important;
+    position: -webkit-sticky;
+    top: 0 !important;
+    background-color: inherit;
+}
+.mat-form-field{
+    margin: 10px;
+}
+
+.grid-wrapper .mat-header-row{
+    min-height: 20px !important;
+}
+
+.mat-sort-header-button{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.academics .mat-list-item .mat-list-item-content {
+    padding:0 !important;
+}   
+
+.mat-tab-body-wrapper{
+    padding:10px;
+    border: 1px solid #ccc;
+    border-top: 0;
+}
+
+.full-width{
+    width:100% !important;
+}
+
+.container{
+    margin-left: 0;
+}
+
+.results .mat-header-row {
+    top: 183px;
+}
+
+.testing .mat-header-row {
+    top: 53px !important;
+}
+
+.sidenav-footer {
+    height: 50px;
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    // font-weight: bold;
+    color: white;
+    font-size: 13px;
+    background: #3f51b5;
+    padding-top: 16px;
+}

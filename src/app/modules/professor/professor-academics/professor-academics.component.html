@@ -1,0 +1,285 @@
+<div class="dashboard-wrapper academics">
+  <span class="selected-app-name">Academics</span>
+  <mat-tab-group dynamicHeight (selectedTabChange)="onLinkClick($event)">
+    <mat-tab label="Syllabus">
+      <div class="mat-elevation-z4">
+        <table class="full-width">
+          <tr>
+            <td>
+              <div class="newNotification" (click)="addSyllabus()" *ngIf="!showAddSyllabus && dataService.user.roleId != 6">
+                <button mat-button color="primary">
+                  <mat-icon>add</mat-icon>Add Syllabus</button>
+              </div>
+              <div class="newNotification" (click)="showAddSyllabus = !showAddSyllabus; getData()" *ngIf="showAddSyllabus">
+                <button mat-button color="primary">
+                  View Syllabus</button>
+              </div>
+              <div *ngIf="showAddSyllabus" class="addForm">
+                <add-form [fields]='fields' [(newRecord)]='newRecord' (onAdd)="addNewNotification($event,2)"></add-form>
+              </div>
+              <br/>
+              <div *ngIf="!showAddSyllabus">
+                <add-form [fields]='searchFields' *ngIf="dataService.user.roleId!=6" [(newRecord)]='newRecord' [button]="button" (onAdd)="onSearch($event)"></add-form>
+                <div class="form-wrapper" *ngIf="dataService.user.roleId==6">
+                    <span *ngFor="let field of searchFields1">
+                      <mat-form-field *ngIf="field.element==='dropdown'">
+                        <mat-select placeholder="{{field.label}}" (change)="valueChange()" [(ngModel)]='newRecord[field.field]' [(value)]='newRecord[field.field]'>
+                          <mat-option *ngFor="let value of field.values" [value]="value.examName || value.subjectName || value[field.field] ||value.name || value.id|| value">
+                            {{ value.examName || value.value || value.subjectName || value[field.field] || value.name || value.id || value}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </span>
+                    <mat-form-field *ngIf="showSubject">
+                      <mat-select placeholder="Subject" [(ngModel)]='newRecord.subject' [(value)]='newRecord.subject'>
+                        <mat-option *ngFor="let value of subjectValues" [value]="value">
+                          {{value}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="buttons-row" *ngIf="showSubject">
+                    <button color="primary" mat-raised-button (click)="onSearch(newRecord)">
+                      <mat-icon>add_circle</mat-icon> {{ button || 'Add'}}
+                    </button>
+                    <button mat-raised-button color="warn" (click)="cancel()">
+                      <mat-icon>cancel</mat-icon> Cancel
+                    </button>
+                  </div>
+                <!-- <h5>{{syllabus}}</h5> -->
+                <data-grid [(data)]="syllabus" [fields]='fields' [selectedApp]='dataService.selectedApp.name' (ondelete)="onDelete($event)"
+                  *ngIf='callGrid'></data-grid>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </mat-tab>
+    <mat-tab label="Lecture Notes" *ngIf="dataService.user.roleId != '6'">
+      <div class="mat-elevation-z4">
+        <table class="full-width">
+          <tr>
+            <td>
+              <div class="newNotification" (click)="addNotes()" *ngIf="!showAddNotes && dataService.user.roleId != 6">
+                <button mat-button color="primary">
+                  <mat-icon>add</mat-icon>Add Lecture Notes</button>
+              </div>
+              <div class="newNotification" (click)="showAddNotes = !showAddNotes; getDataNotes()" *ngIf="showAddNotes">
+                <button mat-button color="primary">
+                  View Lecture Notes</button>
+              </div>
+              <div *ngIf="showAddNotes" class="addForm">
+                <span *ngFor="let field of notesFields">
+                  <mat-form-field *ngIf="field.element==='dropdown'">
+                    <mat-select placeholder="{{field.label}}" (change)="notesValueChange()" [(ngModel)]='newRecord[field.field]' [(value)]='newRecord[field.field]'>
+                      <mat-option *ngFor="let value of field.values" [value]="value.examName || value.subjectName || value[field.field] ||value.name || value.id|| value">
+                        {{ value.examName || value.value || value.subjectName || value[field.field] || value.name || value.id || value}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field *ngIf="field.element==='input' && !field.hide">
+                    <input matInput placeholder="{{field.label}}" [(ngModel)]='newRecord[field.field]'>
+                  </mat-form-field>
+                  <span *ngIf="field.element==='fileUpload'">
+                    <button mat-raised-button (click)="fileInput.click()">
+                      <mat-icon>file_upload</mat-icon>
+                      <span>{{field.label}}</span>
+                      <input #fileInput type="file" (change)="onFileInput($event,field)" placeholder="{{field.field}}" [(ngModel)]='newRecord[field.field]'
+                        style="display:none;">
+                    </button>
+                  </span>
+                </span>
+                <mat-form-field *ngIf="showTopics">
+                  <mat-select placeholder="Topic" [(ngModel)]='newRecord.topic' [(value)]='newRecord.topic'>
+                    <mat-option *ngFor="let value of topics" [value]="value">
+                      {{value}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="buttons-row" *ngIf="showTopics">
+                <button color="primary" mat-raised-button (click)="addNewNotification(newRecord,3)">
+                  <mat-icon>add_circle</mat-icon> {{ 'Add Lecture Notes' || 'Add'}}
+                </button>
+                <button mat-raised-button color="warn" (click)="cancel()">
+                  <mat-icon>cancel</mat-icon> Cancel
+                </button>
+              </div>
+              <!-- <add-form [fields]='fields' [(newRecord)]='newRecord' (onAdd)="addNewNotification($event,3)"></add-form> -->
+              <br/>
+              <div *ngIf="!showAddNotes">
+                <data-grid [(data)]="notes" [fields]='notesFields' [selectedApp]='dataService.selectedApp.name' (ondelete)="onDelete($event)"
+                  *ngIf='callNotesGrid'></data-grid>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </mat-tab>
+    <mat-tab label="Lecture Notes" *ngIf="dataService.user.roleId == '6'">
+      <div class="mat-elevation-z4">
+        <table class="full-width">
+          <tr>
+            <td>
+              <div>
+                <div class="form-wrapper">
+                  <span *ngFor="let field of searchFields1">
+                    <mat-form-field *ngIf="field.element==='dropdown'">
+                      <mat-select placeholder="{{field.label}}" (change)="valueChange()" [(ngModel)]='newRecord[field.field]' [(value)]='newRecord[field.field]'>
+                        <mat-option *ngFor="let value of field.values" [value]="value.examName || value.subjectName || value[field.field] ||value.name || value.id|| value">
+                          {{ value.examName || value.value || value.subjectName || value[field.field] || value.name || value.id || value}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </span>
+                  <mat-form-field *ngIf="showSubject">
+                    <mat-select placeholder="Subject" [(ngModel)]='newRecord.subject' [(value)]='newRecord.subject'>
+                      <mat-option *ngFor="let value of subjectValues" [value]="value">
+                        {{value}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="buttons-row" *ngIf="showSubject">
+                  <button color="primary" mat-raised-button (click)="onSearch(newRecord,true)">
+                    <mat-icon>add_circle</mat-icon> {{ 'View Lecture Notes' || 'Add'}}
+                  </button>
+                  <button mat-raised-button color="warn" (click)="cancel()">
+                    <mat-icon>cancel</mat-icon> Cancel
+                  </button>
+                </div>
+                <!-- <add-form [fields]='searchFields1' [(newRecord)]='newRecord' [button]="'View Lecture Notes'" (onAdd)="onSearch($event,true)"></add-form> -->
+                <data-grid [(data)]="notes" [fields]='notesFields' [selectedApp]='dataService.selectedApp.name' (ondelete)="onDelete($event)"
+                  *ngIf='callNotesGrid'></data-grid>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </mat-tab>
+    <mat-tab label="Notifications">
+      <div class="mat-elevation-z4">
+        <table class="full-width">
+          <tr>
+            <td>
+              <div class="newNotification" (click)="addNotifications()" *ngIf="!showAddNotifications && dataService.user.roleId != 6">
+                <button mat-button color="primary">
+                  <mat-icon>add</mat-icon>Add Notifications</button>
+              </div>
+              <div class="newNotification" (click)="showAddNotifications = !showAddNotifications; getDataNotifications()" *ngIf="showAddNotifications">
+                <button mat-button color="primary">
+                  View Notifications</button>
+              </div>
+              <div *ngIf="showAddNotifications" class="addForm">
+                <add-form [fields]='fields' [(newRecord)]='newRecord' (onAdd)="addNewNotification($event,4)"></add-form>
+              </div>
+              <br/>
+              <div *ngIf="!showAddNotifications">
+                <data-grid [(data)]="notifications" [fields]='notifications.fields' [selectedApp]='dataService.selectedApp.name' (ondelete)="onDelete($event)"
+                  *ngIf='callNotificationsGrid'></data-grid>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+  <!-- <mat-grid-list cols="6" rowHeight="{{tile.rowHeight}}" gutterSize="5px">
+  <mat-grid-tile [colspan]="1" [rowspan]="1" [style.background]="tile.color">
+    <mat-list role="list">
+      <mat-list-item role="listitem" *ngFor="let list of lists">
+        <button mat-button (click)="selectedList(list)" [ngClass]="{'mat-primary' : selected === list}">{{list}}</button>
+      </mat-list-item>
+    </mat-list>
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="5" [rowspan]="1" [style.background]="tile.color">
+    <table style="width:100%">
+      <tr>
+        <td>
+          <div class="button-row">
+            <span style="margin-right: -5px;" *ngFor="let subject of subjects">
+              <button mat-raised-button [ngClass]="{'mat-primary' : selectedS === subject}" (click)="selectedSubject(subject)">{{subject}}</button>
+            </span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <mat-tab-group dynamicHeight>
+            <mat-tab label="Syllabus">
+              <div class="mat-elevation-z4">
+                <table class="full-width">
+                  <tr>
+                    <td style="width:100px;border-right:1px solid #ccc;padding:0" [style.max-height.px]="subjects.tableHeight">
+                        <mat-list role="list" [style.max-height.px]="subjects.tableHeight" style="overflow: auto;">
+                            <mat-list-item role="listitem" *ngFor="let list of subject.syllabus.chapters">
+                              <button mat-button (click)="selectedChapter(list)" [ngClass]="{'mat-primary' : selectedC === list}">{{list}}</button>
+                            </mat-list-item>
+                          </mat-list>
+                    </td>
+                    <td>
+                        <div class="newNotification" (click)="addSyllabus()">
+                            <button mat-button color="primary"><mat-icon>add</mat-icon>Add Syllabus</button>
+                        </div>
+                        <div *ngIf="showAddSyllabus" class="addForm">
+                            <add-form [fields]='fields' [(newRecord)]='newRecord' (onAdd)="addNewNotification($event,1)"></add-form>
+                        </div>
+                      <h5>{{chapterDetails.syllabus}}</h5></td>
+                  </tr>
+                </table>
+              </div>
+            </mat-tab>
+            <mat-tab label="Lecture Notes">
+              <div class="mat-elevation-z4">
+                  <table class="full-width">
+                      <tr>
+                        <td style="width:100px;border-right:1px solid #ccc;padding:0" [style.max-height.px]="subjects.tableHeight">
+                            <mat-list role="list" [style.max-height.px]="subjects.tableHeight" style="overflow: auto;">
+                                <mat-list-item role="listitem" *ngFor="let list of subject.syllabus.chapters">
+                                  <button mat-button (click)="selectedChapter(list)" [ngClass]="{'mat-primary' : selectedC === list}">{{list}}</button>
+                                </mat-list-item>
+                              </mat-list>
+                        </td>
+                        <td>
+                            <div class="newNotification" (click)="addNotes()">
+                                <button mat-button color="primary"><mat-icon>add</mat-icon>Add Lecture Notes</button>
+                            </div>
+                            <div *ngIf="showAddNotes" class="addForm">
+                                <add-form [fields]='fields' [(newRecord)]='newRecord' (onAdd)="addNewNotification($event,2)"></add-form>
+                            </div>
+                          <h5>{{chapterDetails.lectureNotes}}</h5></td>
+                      </tr>
+                    </table> 
+              </div>
+            </mat-tab>
+            <mat-tab label="Notifications">
+              <div class="mat-elevation-z4">
+                  <table class="full-width">
+                      <tr>
+                        <td style="width:100px;border-right:1px solid #ccc;padding:0" [style.max-height.px]="subjects.tableHeight">
+                            <mat-list role="list" [style.max-height.px]="subjects.tableHeight" style="overflow: auto;">
+                                <mat-list-item role="listitem" *ngFor="let list of subject.syllabus.chapters">
+                                  <button mat-button (click)="selectedChapter(list)" [ngClass]="{'mat-primary' : selectedC === list}">{{list}}</button>
+                                </mat-list-item>
+                              </mat-list>
+                        </td>
+                        <td>
+                          <div class="newNotification" (click)="addNotification()">
+                              <button mat-button color="primary"><mat-icon>add</mat-icon>Add New Notification</button>
+                          </div>
+                          <div *ngIf="showAdd" class="addForm">
+                              <add-form [fields]='fields' [(newRecord)]='newRecord' (onAdd)="addNewNotification($event,3)"></add-form>
+                          </div>
+                          <div><h5>{{chapterDetails.notifications}}</h5></div>
+                        </td>
+                      </tr>
+                    </table>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+        </td>
+      </tr>
+    </table>
+  </mat-grid-tile>
+</mat-grid-list> -->
+</div>

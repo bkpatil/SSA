@@ -1,0 +1,229 @@
+<div class="container students-view">
+  <span class="selected-app-name">Feedback</span>
+  <table *ngIf="frontVisible" class="department-select">
+    <tr>
+      <td>
+        <b>Department :</b>
+      </td>
+      <td>
+        <select style="width:200px" class="form-control" [(ngModel)]="department" (change)="getData(department)">
+          <option value='professor'>Professors</option>
+          <option value='transport'>Transport</option>
+          <option value='hostel'>Hostel</option>
+        </select>
+      </td>
+    </tr>
+  </table>
+  <table *ngIf="!frontVisible" class="department-select">
+    <tr>
+      <td>
+        <b>Department :</b>
+      </td>
+      <td>
+        <select style="width:200px" class="form-control" [(ngModel)]="rating.department" (change)="departmentSelect(rating.department)">
+          <option value='professor'>Professors</option>
+          <option value='transport'>Transport</option>
+          <option value='hostel'>Hostel</option>
+        </select>
+      </td>
+    </tr>
+  </table>
+  <span class="row go-icon" *ngIf="frontVisible">
+    <span (click)="flip()">
+      <button mat-button color="primary">
+        <mat-icon>add</mat-icon>Add Feedback</button>
+    </span>
+  </span>
+  <span class="row go-icon" *ngIf="!frontVisible">
+    <span (click)="flip()">
+      <button mat-button color="primary">View Feedback</button>
+    </span>
+  </span>
+  <div class="card" [style.width.px]="data.width" [style.height.px]="data.height">
+    <div class="front" *ngIf="frontVisible">
+      <data-grid [(data)]="data" [fields]='fields' [selectedApp]='dataService.selectedApp.name' (ondelete)="onDelete($event)" *ngIf='callGrid'></data-grid>
+    </div>
+    <div class="back" *ngIf="!frontVisible">
+      <div class="container students-view feedback">
+
+        <br/>
+        <div class="" [style.max-height.px]="height" [style.min-height.px]="height" *ngIf="rating.department">
+          <br/>
+          <table style="margin:0 auto;">
+
+            <tr *ngIf="department === 'professor'">
+              <td>
+                <br/>
+                <b>Department</b>
+                <br/>
+              </td>
+              <td>
+                <select style="width:200px" class="form-control" [(ngModel)]="rating.departmentValue" (change)="getProfessors();getSubjects()">
+                  <option *ngFor="let value of dataService.departments" [value]="value.examName || value.subjectName ||value.name || value.id|| value">
+                    {{ value.examName || value.value || value.subjectName || value.name || value.id || value}}
+                  </option>
+                </select>
+              </td>
+              <td>
+                <b>Course</b>
+              </td>
+              <td>
+                <select style="width:200px" class="form-control" [(ngModel)]="rating.course" (change)="getProfessors();getSubjects()">
+                  <option *ngFor="let value of dataService.courses" [value]="value.course || value.subjectName ||value.name || value.id|| value">
+                    {{ value.course || value.value || value.subjectName || value.name || value.id || value}}
+                  </option>
+                </select>
+              </td>
+            </tr>
+            <!-- <tr *ngIf="department === 'professor'">
+                <td>
+                  <br/>
+                  <b>Course</b>
+                  <br/>
+                </td>
+                <td>
+                  <select style="width:200px" class="form-control" [(ngModel)]="rating.course">
+                    <option *ngFor="let value of dataService.courses" [value]="value.course || value.subjectName ||value.name || value.id|| value">
+                        {{ value.course || value.value || value.subjectName || value.name || value.id || value}}
+                    </option>
+                  </select>
+                </td>
+              </tr> -->
+            <tr *ngIf="department === 'professor'">
+              <td>
+                <br/>
+                <b>Semester</b>
+                <br/>
+              </td>
+              <td>
+                <select style="width:200px" class="form-control" [(ngModel)]="rating.semester" (change)="getProfessors();getSubjects()">
+                  <option *ngFor="let value of semesters" [value]="value.examName || value.subjectName || value.name || value.id|| value">
+                    {{ value.examName || value.value || value.subjectName || value.name || value.id || value}}
+                  </option>
+                </select>
+              </td>
+              <td>
+                <b>Year</b>
+              </td>
+              <td>
+                <select style="width:200px" class="form-control" [(ngModel)]="rating.year" (change)="getProfessors();getSubjects()">
+                  <option *ngFor="let value of years" [value]="value.examName || value.subjectName ||value.name || value.id|| value">
+                    {{ value.examName || value.value || value.subjectName || value.name || value.id || value}}
+                  </option>
+                </select>
+              </td>
+            </tr>
+
+            <tr>
+              <td *ngIf="department === 'professor' && showSubjectDropdown">
+                <b>{{data.detailfield}}</b>
+                <br/>
+              </td>
+              <td *ngIf="department !== 'professor'">
+                  <b>{{data.detailfield}}</b>
+                  <br/>
+                </td>
+              <td colspan='2'>
+                <input type="text" *ngIf="department !== 'professor'" class="form-control" [(ngModel)]="rating.value"/>
+                <!-- <input type="text" *ngIf="department === 'professor'" class="form-control" [(ngModel)]="rating.value" (change)="getProfessors()"/> -->
+                <select *ngIf="department === 'professor' && showSubjectDropdown" style="width:200px" class="form-control" [(ngModel)]="rating.value" (change)="getProfessors()">
+                  <option *ngFor="let value of subjects" [value]="value">
+                    {{value}}
+                  </option>
+                </select>
+                <!-- <select style="width:200px" class="form-control" [(ngModel)]="rating.value">
+                        <option *ngFor="let item of data.data" value="{{item}}">{{item}}</option>
+                      </select> -->
+              </td>
+            </tr>
+            <tr *ngIf="data.otherField && rating.value && department !== 'professor'">
+              <td>
+                <br/>
+                <b>{{data.otherField}}</b>
+                <br/>
+              </td>
+              <td colspan='2'>
+                <input type="text" class="form-control" [(ngModel)]="rating.value2"/>
+                <!-- <select style="width:200px" class="form-control" [(ngModel)]="rating.value">
+                          <option *ngFor="let item of data.data" value="{{item}}">{{item}}</option>
+                        </select> -->
+              </td>
+            </tr>
+            <tr *ngIf="data.otherField && rating.value && department === 'professor'">
+              <td>
+                <br/>
+                <b>{{data.otherField}}</b>
+                <br/>
+              </td>
+              <td colspan='2'>
+                <select style="width:200px" class="form-control" [(ngModel)]="rating.value2" *ngIf='showDropdown'>
+                  <option *ngFor="let item of professors" value="{{item.firstName+' '+item.lastName}}">{{item.firstName+' '+item.lastName}}</option>
+                </select>
+              </td>
+            </tr>
+            <!-- <tr *ngIf="department === 'professor'">
+              <td>
+                <br/>
+                <b>Year</b>
+                <br/>
+              </td>
+              <td>
+                <select style="width:200px" class="form-control" [(ngModel)]="rating.year">
+                  <option *ngFor="let value of years" [value]="value.examName || value.subjectName ||value.name || value.id|| value">
+                    {{ value.examName || value.value || value.subjectName || value.name || value.id || value}}
+                  </option>
+                </select>
+              </td>
+            </tr> -->
+          </table>
+          <br/>
+          <table style="margin:0 auto;" *ngIf="rating.value && (showDropdown || department !== 'professor')">
+            <tr *ngFor="let field of data.fields">
+              <td>
+                <b>{{field}}</b>
+                <br/>
+              </td>
+              <td>
+                <div class="button-row">
+                  <button mat-icon-button>
+                    <mat-icon title="1" color="{{rating[field]>=1? 'primary':''}}" (click)="rating[field]=1">{{rating[field] >= 1 ? 'star' : 'star_border'}}</mat-icon>
+                  </button>
+                  <button mat-icon-button>
+                    <mat-icon title="2" color="{{rating[field] >=2? 'primary':''}}" (click)="rating[field]=2">{{rating[field] >= 2 ? 'star' : 'star_border'}}</mat-icon>
+                  </button>
+                  <button mat-icon-button>
+                    <mat-icon title="3" color="{{rating[field]>=3? 'primary':''}}" (click)="rating[field]=3">{{rating[field] >= 3 ? 'star' : 'star_border'}}</mat-icon>
+                  </button>
+                  <button mat-icon-button>
+                    <mat-icon title="4" color="{{rating[field]>=4? 'primary':''}}" (click)="rating[field]=4">{{rating[field] >= 4 ? 'star' : 'star_border'}}</mat-icon>
+                  </button>
+                  <button mat-icon-button>
+                    <mat-icon title="5" color="{{rating[field]>=5? 'primary':''}}" (click)="rating[field]=5">{{rating[field] >= 5 ? 'star' : 'star_border'}}</mat-icon>
+                  </button>
+
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <b>Comments:</b>
+                <br/>
+              </td>
+              <td>
+                <input type="text" class="form-control" [(ngModel)]="rating.comments" />
+              </td>
+            </tr>
+            <tr>
+              <td colspan='2' style="padding-left:20px">
+                <br/>
+                <br/>
+                <button mat-raised-button color="primary" (click)="postFeedback()">Submit</button>
+                <button mat-raised-button color="default" (click)="clearFeedback()">Clear</button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

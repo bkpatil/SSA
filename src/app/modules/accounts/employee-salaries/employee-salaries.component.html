@@ -1,0 +1,118 @@
+<!-- <div class="container students-view">
+  <span class="selected-app-name">{{user.selectedApp.name}}</span>
+  <span class="row go-icon" *ngIf="!frontVisible">
+    <span (click)="flip()">
+      <button mat-button color="primary">View Results Type</button>
+    </span>
+  </span>
+  <div class="card results" [style.width.px]="data.width" [style.height.px]="data.height">
+    <div class="front" *ngIf="!frontVisible" style="text-align: center;">
+      <h1 class="cursor-pointer" (click)="displayResults('internal')">
+        Internal Test Results
+      </h1>
+      <h1></h1>
+      <h1 class="cursor-pointer" (click)="displayResults('external')">
+        External Test Results
+      </h1>
+    </div>
+    <div class="front" *ngIf="frontVisible">
+      <div style="border-bottom:1px dashed gray;padding:10px;font-size: 17px;padding-left: 30%;">
+        <b>Employee Id: </b>
+        <input type='input' [(ngModel)]='employeeId' />
+        <b>Paid Date: </b>
+        <input type='date' [(ngModel)]='date' />
+        <button (click)="search1()" color="primary" mat-raised-button>Search</button>
+      </div> -->
+      <!-- <add-form [fields]='searchFields' [(newRecord)]='newRecord' [button]="'Search'" (onAdd)="onSearch($event)"></add-form> -->
+      <!-- <table style="    font-size: 18px;
+      width: 60%;
+      margin-left: 20%;
+      margin-top: 4%;" *ngIf="callGrid">
+        <tr>
+          <td>
+            <b>Employee Name</b>
+          </td>
+          <td>{{data.data['Employee Name']}}</td>
+        </tr>
+        <tr>
+          <td>
+            <b>Employee Id</b>
+          </td>
+          <td>{{data.data['EmployeeId']}}</td>
+        </tr>
+        <tr>
+          <td>
+            <b>Paid Amount</b>
+          </td>
+          <td>{{data.data['Paid Amount']}}</td>
+        </tr>
+        <tr>
+          <td>
+            <b>Pending Amount</b>
+          </td>
+          <td>{{data.data['Pending Amount']}}</td>
+        </tr>
+        <tr>
+          <td colspan=2 style="text-align:center">
+            <button mat-raised-button color="primary" (click)="edit()">Edit</button>
+            <button mat-raised-button color="primary" (click)="pay()">Pay</button>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div> -->
+
+<!-- new design -->
+<div class="container students-view">
+    <span class="selected-app-name">{{user.selectedApp.name}}</span>
+    <button mat-flat-button (click)="pay()">PAY</button>
+    <button mat-flat-button (click)="record()">Record</button>
+  
+    <div class="card" [style.width.px]="data.width" [style.height.px]="data.height">
+      <div class="grid-header flex-div grid-filter" *ngIf="data.showFilter">
+        <mat-form-field>
+          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="enter employee ID">
+        </mat-form-field>
+        <span class="flex-one"></span>
+      </div> 
+      <div class="grid-body">
+          <mat-table [dataSource]="dataSource" matSort [style.max-height.px]="data.maxHeight" >
+            <ng-container matColumnDef="empId">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Employee ID</mat-header-cell>
+              <mat-cell *matCellDef="let user"></mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="anualPackage">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Anual Package</mat-header-cell>
+              <mat-cell *matCellDef="let user"></mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="monthPackage">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Month Package</mat-header-cell>
+              <mat-cell *matCellDef="let user"></mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="paidSalary">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Paid Salary</mat-header-cell>
+              <mat-cell *matCellDef="let user"></mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="pendingSalary">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Pending Salary</mat-header-cell>
+              <mat-cell *matCellDef="let user"></mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="action">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Action</mat-header-cell>
+              <mat-cell *matCellDef="let user"></mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns:displayedColumns"></mat-row>
+          </mat-table>
+        <div class="grid-footer" *ngIf="data.showFooter">
+          <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true">
+          </mat-paginator>
+        </div>
+      </div>
+      <!-- <div *ngIf="!dataSource.length">
+        <h1 style="text-align:center;margin-top:20px">No Data to display</h1>
+      </div> -->
+    </div>
+  </div>
+  

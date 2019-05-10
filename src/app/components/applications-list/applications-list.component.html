@@ -1,0 +1,7 @@
+<div class="list-wrapper">
+	<span *ngFor="let item of applications" title={{item.name}} matBadge="4" matBadgeOverlap="false" matBadgePosition="after">
+		<!-- <span title={{item.name}}></span> -->
+		<!-- <div class='app-list-icon'>{{item.icon}}</div> -->
+		<div (click)="itemSelected(item)" matTooltip="{{item.name}}" matBadge="4" class='app-list-icon'><img src="assets/images/{{item.name | lowercase}}.png"></div>
+	</span>
+</div>
